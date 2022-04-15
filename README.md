@@ -1,7 +1,7 @@
 # 💬 custom pin screen
 
 [![codecov](https://codecov.io/gh/Mastersam07/custom_pin_screen/branch/master/graph/badge.svg?token=cf4ny3Dz6B)](https://codecov.io/gh/Mastersam07/custom_pin_screen)
-[![CI](https://github.com/Mastersam07/custom_pin_screen/actions/workflows/build.yaml/badge.svg?branch=master)](https://github.com/Mastersam07/custom_pin_screen/actions/workflows/build.yaml)
+[![CI](https://github.com/mastersam07/custom_pin_screen/workflows/CI/badge.svg?style=flat-square)](https://github.com/mastersam07/custom_pin_screen/workflows/CI/badge.svg?style=flat-square)
 [![license](https://img.shields.io/badge/license-MIT-success.svg?style=flat-square)](https://github.com/Mastersam07/livechat/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-success.svg?style=flat-square)](https://github.com/Mastersam07/custom_pin_screen/pulls)
 ![GitHub contributors](https://img.shields.io/github/contributors/mastersam07/custom_pin_screen?color=success&style=flat-square)
