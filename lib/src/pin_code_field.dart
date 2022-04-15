@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 /// PinCodeField
 class PinCodeField extends StatelessWidget {
   const PinCodeField({
-    Key key,
-    @required this.pin,
-    @required this.pinCodeFieldIndex,
+    Key? key,
+    required this.pin,
+    required this.pinCodeFieldIndex,
   }) : super(key: key);
 
   /// The pin code

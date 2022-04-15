@@ -13,7 +13,7 @@ A flutter package to add screens with custom keyboards and pins to your mobile a
 
 ```yaml
 dependencies:
-  custom_pin_screen: "^0.1.0"
+  custom_pin_screen: "^0.2.0"
 ```
 
 ### ⚡️ Import

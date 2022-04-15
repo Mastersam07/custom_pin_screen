@@ -4,35 +4,35 @@ import 'package:flutter/material.dart';
 /// Custom keyboard
 class CustomKeyBoard extends StatefulWidget {
   /// color of the keys
-  final Color numpadColor;
+  final Color? numpadColor;
 
   /// color of the amount text
-  final Color amountColor;
+  final Color? amountColor;
 
   /// color of the submit button
-  final Color submitColor;
+  final Color? submitColor;
 
   /// special key to be displayed on the widget. Default is '.'
-  final Widget specialKey;
+  final Widget? specialKey;
 
   /// on pressed function to be called when the submit button is pressed.
-  final Function onbuttonClick;
+  final Function? onbuttonClick;
 
   /// on changed function to be called when the amount is changed.
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
 
   /// function to be called when special keys are pressed.
-  final Function() specialKeyOnTap;
+  final Function()? specialKeyOnTap;
 
   /// submit button text.
-  final Widget submitLabel;
+  final Widget? submitLabel;
 
   /// maximum length of the amount.
-  final int maxLength;
+  final int? maxLength;
 
   const CustomKeyBoard({
-    Key key,
-    @required this.maxLength,
+    Key? key,
+    required this.maxLength,
     this.numpadColor,
     this.specialKey,
     this.onbuttonClick,
@@ -48,7 +48,7 @@ class CustomKeyBoard extends StatefulWidget {
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
   String value = "";
-  Widget buildNumberButton({int number, Widget icon, Function onPressed}) {
+  Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
         return icon;
@@ -76,11 +76,11 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength) {
+                if (value.length < widget.maxLength!) {
                   setState(() {
                     value = value + buttonNumber.toString();
                   });
-                  widget.onChanged(value);
+                  widget.onChanged!(value);
                 }
               },
             ))
@@ -109,24 +109,24 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (value.length < widget.maxLength) {
+                  if (value.length < widget.maxLength!) {
                     if (!value.contains(".")) {
                       setState(() {
                         value = value + ".";
                       });
                     }
-                    widget.onChanged(value);
+                    widget.onChanged!(value);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength) {
+              if (value.length < widget.maxLength!) {
                 setState(() {
                   value = value + 0.toString();
                 });
-                widget.onChanged(value);
+                widget.onChanged!(value);
               }
             },
           ),
@@ -142,7 +142,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                     value = value.substring(0, value.length - 1);
                   });
                 }
-                widget.onChanged(value);
+                widget.onChanged!(value);
               }),
         ],
       ),
@@ -151,7 +151,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.maxLength == null || widget.maxLength < 1) {
+    if (widget.maxLength == null || widget.maxLength! < 1) {
       throw AssertionError('maxLength must be greater than 0');
     }
     return Column(
@@ -160,7 +160,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           child: SizedBox(),
         ),
         Text(
-          "₦${value ?? "0.00"}",
+          "₦$value",
           key: const Key('amtKey'),
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -188,7 +188,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         ),
         GestureDetector(
           onTap: () {
-            widget.onbuttonClick();
+            widget.onbuttonClick!();
           },
           child: Container(
             color: widget.submitColor ?? Colors.blue,

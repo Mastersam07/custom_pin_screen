@@ -5,37 +5,37 @@ import 'pin_code_field.dart';
 /// Pin authentication screen
 class PinAuthentication extends StatefulWidget {
   /// title to be displayed on the widget. Default is 'Enter PIN'
-  final String action;
+  final String? action;
 
   /// subtitle/description to be displayed on the widget. Default is 'Enter your PIN to continue'
-  final String actionDescription;
+  final String? actionDescription;
 
   /// submit button text.
-  final Widget submitLabel;
+  final Widget? submitLabel;
 
   /// on pressed function to be called when the submit button is pressed.
-  final Function onbuttonClick;
+  final Function? onbuttonClick;
 
   /// on changed function to be called when the pin code is changed.
-  final Function(String) onChanged;
+  final Function(String)? onChanged;
 
   /// function to be called when special keys are pressed.
-  final Function onSpecialKeyTap;
+  final Function()? onSpecialKeyTap;
 
   /// Decides whether finger print is enabled or not. Default is false
-  final bool useFingerprint;
+  final bool? useFingerprint;
 
   /// special key to be displayed on the widget. Default is 'backspace'
-  final Widget specialKey;
+  final Widget? specialKey;
 
   /// background color of the widget. Default is [Colors.blue]
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// maximum length of pin.
   final int maxLength;
 
   const PinAuthentication({
-    Key key,
+    Key? key,
     this.action,
     this.backgroundColor,
     this.onSpecialKeyTap,
@@ -54,7 +54,7 @@ class PinAuthentication extends StatefulWidget {
 
 class _PinAuthenticationState extends State<PinAuthentication> {
   String pin = "";
-  Widget buildNumberButton({int number, Widget icon, Function onPressed}) {
+  Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
         return icon;
@@ -93,7 +93,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                     pin = pin + buttonNumber.toString();
                   });
                 }
-                widget.onChanged(pin);
+                widget.onChanged!(pin);
               },
             ))
         .toList();
@@ -112,7 +112,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           buildNumberButton(
-              icon: widget.useFingerprint
+              icon: widget.useFingerprint!
                   ? const Icon(
                       Icons.fingerprint,
                       key: Key('fingerprint'),
@@ -129,7 +129,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   pin = pin + 0.toString();
                 });
               }
-              widget.onChanged(pin);
+              widget.onChanged!(pin);
             },
           ),
           buildNumberButton(
@@ -144,7 +144,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                     pin = pin.substring(0, pin.length - 1);
                   });
                 }
-                widget.onChanged(pin);
+                widget.onChanged!(pin);
               }),
         ],
       ),
@@ -153,7 +153,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.useFingerprint && widget.onSpecialKeyTap == null) {
+    if (widget.useFingerprint! && widget.onSpecialKeyTap == null) {
       throw AssertionError("You can't use fingerprint without onSpecialKeyTap");
     }
     if (widget.specialKey != null && widget.onSpecialKeyTap == null) {
@@ -230,7 +230,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           GestureDetector(
             key: const Key('submit'),
             onTap: () {
-              widget.onbuttonClick();
+              widget.onbuttonClick!();
             },
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 30, 0, 50),

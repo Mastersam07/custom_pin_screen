@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('custom keyboard is displayed ...', (tester) async {
     const length = 7;
-    num amount;
+    num? amount;
     await tester.pumpWidget(
       MaterialApp(
         home: Material(

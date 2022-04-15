@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('pin authentication works well...', (tester) async {
-    String pin;
+    String? pin;
     await tester.pumpWidget(
       MaterialApp(
         home: Material(
@@ -52,7 +52,7 @@ void main() {
   testWidgets(
       'pin authentication throws exception when only special key method is passed...',
       (tester) async {
-    String pin;
+    String? pin;
     await tester.pumpWidget(
       MaterialApp(
         home: Material(
