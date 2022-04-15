@@ -1,4 +1,4 @@
-# 💬 custom pin screen
+# 🔐 custom pin screen
 
 [![codecov](https://codecov.io/gh/Mastersam07/custom_pin_screen/branch/master/graph/badge.svg?token=cf4ny3Dz6B)](https://codecov.io/gh/Mastersam07/custom_pin_screen)
 [![CI](https://github.com/mastersam07/custom_pin_screen/workflows/CI/badge.svg?style=flat-square)](https://github.com/mastersam07/custom_pin_screen/workflows/CI/badge.svg?style=flat-square)
