@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           print('tapped!');
                         }
                       },
+                      maxLength: 6,
                       // specialKey: const SizedBox(),
                       useFingerprint: true,
                       onbuttonClick: () {
@@ -136,7 +137,7 @@ class WalletScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: CustomAppKeyBoard(
+              child: CustomKeyBoard(
             onChanged: (v) {
               if (kDebugMode) {
                 print(v);

@@ -9,7 +9,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Material(
-          child: CustomAppKeyBoard(
+          child: CustomKeyBoard(
             key: const Key('keyboardKey'),
             maxLength: length,
             onChanged: (p0) {
@@ -68,7 +68,7 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Material(
-          child: CustomAppKeyBoard(
+          child: CustomKeyBoard(
             key: Key('keyboardKey'),
             maxLength: -1,
           ),

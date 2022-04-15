@@ -2,16 +2,37 @@ import 'package:flutter/material.dart';
 
 import 'pin_code_field.dart';
 
+/// Pin authentication screen
 class PinAuthentication extends StatefulWidget {
+  /// title to be displayed on the widget. Default is 'Enter PIN'
   final String action;
+
+  /// subtitle/description to be displayed on the widget. Default is 'Enter your PIN to continue'
   final String actionDescription;
+
+  /// submit button text.
   final Widget submitLabel;
+
+  /// on pressed function to be called when the submit button is pressed.
   final Function onbuttonClick;
+
+  /// on changed function to be called when the pin code is changed.
   final Function(String) onChanged;
+
+  /// function to be called when special keys are pressed.
   final Function onSpecialKeyTap;
+
+  /// Decides whether finger print is enabled or not. Default is false
   final bool useFingerprint;
+
+  /// special key to be displayed on the widget. Default is 'backspace'
   final Widget specialKey;
+
+  /// background color of the widget. Default is [Colors.blue]
   final Color backgroundColor;
+
+  /// maximum length of pin.
+  final int maxLength;
 
   const PinAuthentication({
     Key key,
@@ -23,8 +44,10 @@ class PinAuthentication extends StatefulWidget {
     this.onbuttonClick,
     this.onChanged,
     this.specialKey,
+    this.maxLength = 4,
     this.useFingerprint = false,
-  }) : super(key: key);
+  })  : assert(maxLength > 0 && maxLength < 7),
+        super(key: key);
   @override
   _PinAuthenticationState createState() => _PinAuthenticationState();
 }
@@ -65,7 +88,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (pin.length < 4) {
+                if (pin.length < widget.maxLength) {
                   setState(() {
                     pin = pin + buttonNumber.toString();
                   });
@@ -101,7 +124,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (pin.length < 4) {
+              if (pin.length < widget.maxLength) {
                 setState(() {
                   pin = pin + 0.toString();
                 });
@@ -179,7 +202,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (int i = 0; i < 4; i++)
+              for (int i = 0; i < widget.maxLength; i++)
                 PinCodeField(
                   key: Key('pinField$i'),
                   pin: pin,

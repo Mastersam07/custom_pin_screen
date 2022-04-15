@@ -1,17 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppKeyBoard extends StatefulWidget {
+/// Custom keyboard
+class CustomKeyBoard extends StatefulWidget {
+  /// color of the keys
   final Color numpadColor;
+
+  /// color of the amount text
   final Color amountColor;
+
+  /// color of the submit button
   final Color submitColor;
+
+  /// special key to be displayed on the widget. Default is '.'
   final Widget specialKey;
+
+  /// on pressed function to be called when the submit button is pressed.
   final Function onbuttonClick;
+
+  /// on changed function to be called when the amount is changed.
   final Function(String) onChanged;
+
+  /// function to be called when special keys are pressed.
   final Function() specialKeyOnTap;
+
+  /// submit button text.
   final Widget submitLabel;
+
+  /// maximum length of the amount.
   final int maxLength;
-  const CustomAppKeyBoard({
+
+  const CustomKeyBoard({
     Key key,
     @required this.maxLength,
     this.numpadColor,
@@ -24,10 +43,10 @@ class CustomAppKeyBoard extends StatefulWidget {
     this.submitColor,
   }) : super(key: key);
   @override
-  _CustomAppKeyBoardState createState() => _CustomAppKeyBoardState();
+  _CustomKeyBoardState createState() => _CustomKeyBoardState();
 }
 
-class _CustomAppKeyBoardState extends State<CustomAppKeyBoard> {
+class _CustomKeyBoardState extends State<CustomKeyBoard> {
   String value = "";
   Widget buildNumberButton({int number, Widget icon, Function onPressed}) {
     getChild() {

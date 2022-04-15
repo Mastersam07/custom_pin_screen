@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// PinCodeField
 class PinCodeField extends StatelessWidget {
   const PinCodeField({
     Key key,
@@ -7,7 +8,10 @@ class PinCodeField extends StatelessWidget {
     @required this.pinCodeFieldIndex,
   }) : super(key: key);
 
+  /// The pin code
   final String pin;
+
+  /// The index of the pin code field
   final int pinCodeFieldIndex;
 
   @override
