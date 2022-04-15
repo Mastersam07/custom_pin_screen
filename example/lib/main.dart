@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:custom_pin_screen/pin_screen.dart';
+import 'package:custom_pin_screen/custom_pin_screen.dart';
 
 void main() {
   runApp(const MyApp());

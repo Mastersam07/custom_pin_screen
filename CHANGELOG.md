@@ -1,4 +1,4 @@
-## 0.1
+## 0.1.0
 
 * Added pin authentication widget.
 * Added tests for pin authentication.

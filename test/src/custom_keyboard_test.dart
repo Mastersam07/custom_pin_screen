@@ -1,4 +1,4 @@
-import 'package:custom_pin_screen/pin_screen.dart';
+import 'package:custom_pin_screen/custom_pin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
