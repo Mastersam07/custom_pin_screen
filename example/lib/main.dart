@@ -47,28 +47,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PinAuthentication(
+                      pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        backgroundColor: Colors.green,
+                        keysColor: Colors.white,
+                        activeFillColor:
+                            const Color(0xFFF7F8FF).withOpacity(0.13),
+                      ),
                       onChanged: (v) {
                         if (kDebugMode) {
                           print(v);
                         }
                       },
+                      onCompleted: (v) {
+                        if (kDebugMode) {
+                          print('completed: $v');
+                        }
+                      },
+                      maxLength: 4,
                       onSpecialKeyTap: () {
                         if (kDebugMode) {
-                          print('tapped!');
+                          print('fingerprint');
                         }
                       },
-                      maxLength: 6,
                       // specialKey: const SizedBox(),
                       useFingerprint: true,
-                      onbuttonClick: () {
-                        if (kDebugMode) {
-                          print('submit tapped');
-                        }
-                      },
-                      submitLabel: const Text(
-                        'Submit',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
                     ),
                   ),
                 );
@@ -138,6 +142,10 @@ class WalletScreen extends StatelessWidget {
           ),
           Expanded(
               child: CustomKeyBoard(
+            pinTheme: PinTheme(
+                submitColor: Colors.green,
+                textColor: Colors.red,
+                keysColor: Colors.blue),
             onChanged: (v) {
               if (kDebugMode) {
                 print(v);
@@ -163,7 +171,7 @@ class WalletScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).padding.bottom,
-        color: Colors.blue,
+        color: Colors.green,
       ),
     );
   }
