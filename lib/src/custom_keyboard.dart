@@ -1,16 +1,11 @@
+import 'package:custom_pin_screen/src/src.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Custom keyboard
 class CustomKeyBoard extends StatefulWidget {
-  /// color of the keys
-  final Color? numpadColor;
-
-  /// color of the amount text
-  final Color? amountColor;
-
-  /// color of the submit button
-  final Color? submitColor;
+  /// Theme for the widget. Read more [PinTheme]
+  final PinTheme pinTheme;
 
   /// special key to be displayed on the widget. Default is '.'
   final Widget? specialKey;
@@ -33,14 +28,12 @@ class CustomKeyBoard extends StatefulWidget {
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
-    this.numpadColor,
+    this.pinTheme = const PinTheme.defaults(),
     this.specialKey,
     this.onbuttonClick,
     this.onChanged,
     this.specialKeyOnTap,
     this.submitLabel,
-    this.amountColor,
-    this.submitColor,
   }) : super(key: key);
   @override
   _CustomKeyBoardState createState() => _CustomKeyBoardState();
@@ -58,7 +51,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: widget.numpadColor ?? Colors.red,
+            color: widget.pinTheme.keysColor,
           ),
         );
       }
@@ -104,7 +97,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 Icon(
                   Icons.circle,
                   key: const Key('specialKey'),
-                  color: widget.numpadColor ?? Colors.red,
+                  color: widget.pinTheme.keysColor,
                   size: 7,
                 ),
             onPressed: widget.specialKeyOnTap ??
@@ -134,7 +127,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               icon: Icon(
                 Icons.backspace,
                 key: const Key('backspace'),
-                color: widget.numpadColor ?? Colors.red,
+                color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
                 if (value.isNotEmpty) {
@@ -164,7 +157,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           key: const Key('amtKey'),
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: widget.amountColor ?? Colors.blue,
+            color: widget.pinTheme.textColor,
             fontWeight: FontWeight.w700,
             fontSize: 48,
           ),
@@ -191,7 +184,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
             widget.onbuttonClick!();
           },
           child: Container(
-            color: widget.submitColor ?? Colors.blue,
+            color: widget.pinTheme.submitColor,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: Center(
