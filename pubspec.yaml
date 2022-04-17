@@ -1,6 +1,7 @@
 name: custom_pin_screen
-description: A flutter package to add screens with custom keyboards and pins to your mobile application.
-version: 0.2.0
+description: A flutter package to add screens with custom keyboards and pins to
+  your mobile application.
+version: 0.3.0
 homepage: https://github.com/Mastersam07/custom_pin_screen
 
 environment:
@@ -12,8 +13,6 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
-
-flutter:

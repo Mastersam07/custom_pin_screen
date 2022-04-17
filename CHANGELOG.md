@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Added theme to widgets for easy styling.
+
 ## 0.2.0
 
 * Migrate to null safety.
