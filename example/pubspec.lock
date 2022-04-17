@@ -56,7 +56,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.0"
+    version: "0.3.0"
   fake_async:
     dependency: transitive
     description:
@@ -81,6 +81,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_vibrate:
+    dependency: transitive
+    description:
+      name: flutter_vibrate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
   lints:
     dependency: transitive
     description:
