@@ -105,7 +105,9 @@ class WalletScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+
   Widget build(BuildContext context) {
+    TextEditingController textEditingController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -142,6 +144,7 @@ class WalletScreen extends StatelessWidget {
           ),
           Expanded(
               child: CustomKeyBoard(
+                controller:textEditingController,
             pinTheme: KeyBoardPinTheme(
                 submitColor: Colors.green,
                 textColor: Colors.red,
@@ -157,6 +160,7 @@ class WalletScreen extends StatelessWidget {
               }
             },
             maxLength: 4,
+
             submitLabel: const Text(
               'Proceed',
               style: TextStyle(
