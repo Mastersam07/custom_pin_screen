@@ -28,7 +28,7 @@ class PinAuthentication extends StatefulWidget {
   final Function()? onSpecialKeyTap;
 
   /// Theme for the widget and pin cells. Read more [PinTheme]
-  final PinTheme pinTheme;
+  final KeyBoardPinTheme pinTheme;
 
   /// Decides whether finger print is enabled or not. Default is false
   final bool? useFingerprint;
@@ -49,7 +49,7 @@ class PinAuthentication extends StatefulWidget {
     this.onChanged,
     this.specialKey,
     this.maxLength = 4,
-    this.pinTheme = const PinTheme.defaults(),
+    this.pinTheme = const KeyBoardPinTheme.defaults(),
     this.useFingerprint = false,
     this.onCompleted,
   })  : assert(maxLength > 0 && maxLength < 7),
@@ -60,7 +60,7 @@ class PinAuthentication extends StatefulWidget {
 
 class _PinAuthenticationState extends State<PinAuthentication> {
   String pin = "";
-  PinTheme get _pinTheme => widget.pinTheme;
+  KeyBoardPinTheme get _pinTheme => widget.pinTheme;
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
