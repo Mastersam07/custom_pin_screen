@@ -154,16 +154,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         const Expanded(
           child: SizedBox(),
         ),
-        Text(
-          "₦${widget.controller!.text}",
-          key: const Key('amtKey'),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: widget.pinTheme.textColor,
-            fontWeight: FontWeight.w700,
-            fontSize: 48,
-          ),
-        ),
+
         const SizedBox(
           height: 80,
         ),
@@ -181,26 +172,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            widget.onbuttonClick!();
-          },
-          child: Container(
-            color: widget.pinTheme.submitColor,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Center(
-                child: widget.submitLabel ??
-                    const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-              ),
-            ),
-          ),
-        )
+
       ],
     );
   }

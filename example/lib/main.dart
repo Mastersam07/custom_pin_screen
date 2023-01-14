@@ -92,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Text('Custom Keyboard'),
               label: const Icon(Icons.keyboard),
             ),
+
           ],
         ),
       ),
@@ -105,7 +106,6 @@ class WalletScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-
   Widget build(BuildContext context) {
     TextEditingController textEditingController = TextEditingController();
     return Scaffold(
@@ -142,11 +142,28 @@ class WalletScreen extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 32),
+            child: TextField(
+              controller: textEditingController,
+              ///Remember to set the read only property of the readOnly
+              /// textField to true to prevent the native keyboard from popping up
+              readOnly: true,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w700,
+                fontSize: 48,
+              ),
+              decoration: const InputDecoration(
+                   border: InputBorder.none
+              ),
+            ),
+          ),
           Expanded(
               child: CustomKeyBoard(
-                controller:textEditingController,
+            controller: textEditingController,
             pinTheme: KeyBoardPinTheme(
-                submitColor: Colors.green,
                 textColor: Colors.red,
                 keysColor: Colors.blue),
             onChanged: (v) {
@@ -180,3 +197,5 @@ class WalletScreen extends StatelessWidget {
     );
   }
 }
+
+

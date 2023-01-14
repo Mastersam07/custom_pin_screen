@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:custom_pin_screen/src/pin_code_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:pin_code_fields/pin_code_fields.dart' as pin_code;
 
 import 'theme.dart';
 import 'pin_code_field.dart';
@@ -186,7 +186,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
       throw AssertionError(
           "You can't use submitLabel onbuttonClick on empty submitLabel");
     }
-    StreamController<ErrorAnimationType>? errorController;
+    StreamController<pin_code.ErrorAnimationType>? errorController;
     TextEditingController textEditingController = TextEditingController();
     String? currentText;
     return Scaffold(
@@ -220,7 +220,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 32, right: 32, bottom: 34),
-            child: PinCodeTextField(
+            child: pin_code.PinCodeTextField(
               appContext: context,
               pastedTextStyle: const TextStyle(
                 color: Colors.blue,
@@ -232,7 +232,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
               autoFocus: true,
               readOnly: true,
               autoDisposeControllers: false,
-              animationType: AnimationType.fade,
+              animationType: pin_code.AnimationType.fade,
               validator: (v) {
                 if (v!.length < 4) {
                   return 'pin less than 4';
@@ -240,7 +240,20 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   return null;
                 }
               },
-              pinTheme: kPinCodeStyle,
+              pinTheme:  pin_code.PinTheme(
+                  shape: pin_code.PinCodeFieldShape.underline,
+                  borderWidth: 2,
+                  borderRadius: BorderRadius.circular(5),
+                  fieldHeight: 50,
+                  fieldWidth: 50,
+                  inactiveColor: Colors.grey.shade100,
+                  activeColor: Colors.green,
+                  selectedColor: Colors.greenAccent,
+                  inactiveFillColor: Colors.grey.shade100,
+                  activeFillColor: Colors.grey.shade100,
+                  selectedFillColor: Colors.grey.shade100
+
+              ),
               animationDuration: const Duration(milliseconds: 300),
               textStyle: const TextStyle(
                 color: Colors.blue,
