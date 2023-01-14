@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:custom_pin_screen/src/pin_code_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -183,6 +186,9 @@ class _PinAuthenticationState extends State<PinAuthentication> {
       throw AssertionError(
           "You can't use submitLabel onbuttonClick on empty submitLabel");
     }
+    StreamController<ErrorAnimationType>? errorController;
+    TextEditingController textEditingController = TextEditingController();
+    String? currentText;
     return Scaffold(
       backgroundColor: widget.pinTheme.backgroundColor,
       body: Column(
@@ -234,7 +240,10 @@ class _PinAuthenticationState extends State<PinAuthentication> {
             },
             pinTheme: kPinCodeStyle,
             animationDuration: const Duration(milliseconds: 300),
-            textStyle: kPinCodeTextStyle,
+            textStyle: const TextStyle(
+              color: Colors.blue,
+              fontSize: 20,
+            ),
             enableActiveFill: true,
             errorAnimationController: errorController,
             controller: pin,
@@ -261,7 +270,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
               });
             },
             beforeTextPaste: (text) {
-              out("Allowing to paste $text");
+              debugPrint("Allowing to paste $text");
               return true;
             },
           ),
