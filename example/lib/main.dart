@@ -142,7 +142,7 @@ class WalletScreen extends StatelessWidget {
           ),
           Expanded(
               child: CustomKeyBoard(
-            pinTheme: PinTheme(
+            pinTheme: KeyBoardPinTheme(
                 submitColor: Colors.green,
                 textColor: Colors.red,
                 keysColor: Colors.blue),

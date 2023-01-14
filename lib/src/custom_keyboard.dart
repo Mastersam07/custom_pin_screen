@@ -24,6 +24,7 @@ class CustomKeyBoard extends StatefulWidget {
 
   /// maximum length of the amount.
   final int? maxLength;
+ // final TextEditingController value;
 
   const CustomKeyBoard({
     Key? key,
@@ -40,7 +41,7 @@ class CustomKeyBoard extends StatefulWidget {
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-  String value = "";
+  TextEditingController value;
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -69,11 +70,11 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength!) {
+                if (value.text.length < widget.maxLength!) {
                   setState(() {
-                    value = value + buttonNumber.toString();
+                    value.text = value.text + buttonNumber.toString();
                   });
-                  widget.onChanged!(value);
+                  widget.onChanged!(value.text);
                 }
               },
             ))
@@ -102,24 +103,24 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (value.length < widget.maxLength!) {
-                    if (!value.contains(".")) {
+                  if (value.text.length < widget.maxLength!) {
+                    if (!value.text.contains(".")) {
                       setState(() {
-                        value = value + ".";
+                        value.text = value.text + ".";
                       });
                     }
-                    widget.onChanged!(value);
+                    widget.onChanged!(value.text);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength!) {
+              if (value.text.length < widget.maxLength!) {
                 setState(() {
-                  value = value + 0.toString();
+                  value.text = value.text + 0.toString();
                 });
-                widget.onChanged!(value);
+                widget.onChanged!(value.text);
               }
             },
           ),
@@ -130,12 +131,12 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
-                if (value.isNotEmpty) {
+                if (value.text.isNotEmpty) {
                   setState(() {
-                    value = value.substring(0, value.length - 1);
+                    value.text = value.text.substring(0, value.text.length - 1);
                   });
                 }
-                widget.onChanged!(value);
+                widget.onChanged!(value.text);
               }),
         ],
       ),
