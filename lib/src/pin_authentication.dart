@@ -218,65 +218,66 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           const SizedBox(
             height: 40,
           ),
-          PinCodeTextField(
-            appContext: context,
-            pastedTextStyle: const TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
-            ),
-            length: 4,
-            obscureText: false,
-            obscuringCharacter: '*',
-            autoFocus: true,
-            readOnly: true,
-            autoDisposeControllers: false,
-            animationType: AnimationType.fade,
-            validator: (v) {
-              if (v!.length < 4) {
-                return 'pin less than 4';
-              } else {
-                return null;
-              }
-            },
-            pinTheme: kPinCodeStyle,
-            animationDuration: const Duration(milliseconds: 300),
-            textStyle: const TextStyle(
-              color: Colors.blue,
-              fontSize: 20,
-            ),
-            enableActiveFill: true,
-            errorAnimationController: errorController,
-            controller: pin,
-            keyboardType: TextInputType.number,
-            boxShadows: const [
-              BoxShadow(
-                offset: Offset(0, 1),
-                color: Colors.black12,
-                blurRadius: 10,
-              )
-            ],
-            onCompleted: (v) async {
-             debugPrint(v);
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 32, bottom: 34),
+            child: PinCodeTextField(
+              appContext: context,
+              pastedTextStyle: const TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
+              length: 4,
+              obscureText: false,
+              obscuringCharacter: '*',
+              autoFocus: true,
+              readOnly: true,
+              autoDisposeControllers: false,
+              animationType: AnimationType.fade,
+              validator: (v) {
+                if (v!.length < 4) {
+                  return 'pin less than 4';
+                } else {
+                  return null;
+                }
+              },
+              pinTheme: kPinCodeStyle,
+              animationDuration: const Duration(milliseconds: 300),
+              textStyle: const TextStyle(
+                color: Colors.blue,
+                fontSize: 20,
+              ),
+              enableActiveFill: true,
+              errorAnimationController: errorController,
+              controller: pin,
+              keyboardType: TextInputType.number,
+              boxShadows: const [
+                BoxShadow(
+                  offset: Offset(0, 1),
+                  color: Colors.black12,
+                  blurRadius: 10,
+                )
+              ],
+              onCompleted: (v) async {
+               debugPrint(v);
 
-            },
-            // onTap: () {
-            //   print("Pressed");
-            // },
-            onChanged: (value){
-              debugPrint("Value ===> $value");
-              setState(()  {
-                currentText = value;
+              },
+              // onTap: () {
+              //   print("Pressed");
+              // },
+              onChanged: (value){
+                debugPrint("Value ===> $value");
+                setState(()  {
+                  currentText = value;
 
-              });
-            },
-            beforeTextPaste: (text) {
-              debugPrint("Allowing to paste $text");
-              return true;
-            },
+                });
+              },
+              beforeTextPaste: (text) {
+                debugPrint("Allowing to paste $text");
+                return true;
+              },
+            ),
           ),
-          const SizedBox(
-            height: 80,
-          ),
+
           Expanded(
             flex: 2,
             child: Container(
