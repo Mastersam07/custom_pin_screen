@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'theme.dart';
 import 'pin_code_field.dart';
@@ -211,17 +212,58 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           const SizedBox(
             height: 40,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 0; i < widget.maxLength; i++)
-                PinCodeField(
-                  key: Key('pinField$i'),
-                  pin: pin,
-                  pinCodeFieldIndex: i,
-                  theme: _pinTheme,
-                ),
+          PinCodeTextField(
+            appContext: context,
+            pastedTextStyle: const TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+            length: 4,
+            obscureText: false,
+            obscuringCharacter: '*',
+            autoFocus: true,
+            readOnly: true,
+            autoDisposeControllers: false,
+            animationType: AnimationType.fade,
+            validator: (v) {
+              if (v!.length < 4) {
+                return 'pin less than 4';
+              } else {
+                return null;
+              }
+            },
+            pinTheme: kPinCodeStyle,
+            animationDuration: const Duration(milliseconds: 300),
+            textStyle: kPinCodeTextStyle,
+            enableActiveFill: true,
+            errorAnimationController: errorController,
+            controller: pin,
+            keyboardType: TextInputType.number,
+            boxShadows: const [
+              BoxShadow(
+                offset: Offset(0, 1),
+                color: Colors.black12,
+                blurRadius: 10,
+              )
             ],
+            onCompleted: (v) async {
+             debugPrint(v);
+
+            },
+            // onTap: () {
+            //   print("Pressed");
+            // },
+            onChanged: (value){
+              debugPrint("Value ===> $value");
+              setState(()  {
+                currentText = value;
+
+              });
+            },
+            beforeTextPaste: (text) {
+              out("Allowing to paste $text");
+              return true;
+            },
           ),
           const SizedBox(
             height: 80,
