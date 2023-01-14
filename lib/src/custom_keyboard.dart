@@ -25,11 +25,11 @@ class CustomKeyBoard extends StatefulWidget {
   /// maximum length of the amount.
   final int? maxLength;
  // final TextEditingController value;
- final TextEditingController controller;
+ final TextEditingController? controller;
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
-    required this.controller,
+    this.controller,
     this.pinTheme = const KeyBoardPinTheme.defaults(),
     this.specialKey,
     this.onbuttonClick,
@@ -71,11 +71,11 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (widget.controller.text.length < widget.maxLength!) {
+                if (widget.controller!.text.length < widget.maxLength!) {
                   setState(() {
-                    widget.controller.text = widget.controller.text + buttonNumber.toString();
+                    widget.controller!.text = widget.controller!.text + buttonNumber.toString();
                   });
-                  widget.onChanged!(widget.controller.text);
+                  widget.onChanged!(widget.controller!.text);
                 }
               },
             ))
@@ -104,24 +104,24 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (widget.controller.text.length < widget.maxLength!) {
-                    if (!widget.controller.text.contains(".")) {
+                  if (widget.controller!.text.length < widget.maxLength!) {
+                    if (!widget.controller!.text.contains(".")) {
                       setState(() {
-                        widget.controller.text = widget.controller.text + ".";
+                        widget.controller!.text = widget.controller!.text + ".";
                       });
                     }
-                    widget.onChanged!(widget.controller.text);
+                    widget.onChanged!(widget.controller!.text);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (widget.controller.text.length < widget.maxLength!) {
+              if (widget.controller!.text.length < widget.maxLength!) {
                 setState(() {
-                  widget.controller.text = widget.controller.text + 0.toString();
+                  widget.controller!.text = widget.controller!.text + 0.toString();
                 });
-                widget.onChanged!(widget.controller.text);
+                widget.onChanged!(widget.controller!.text);
               }
             },
           ),
@@ -132,12 +132,12 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
-                if (widget.controller.text.isNotEmpty) {
+                if (widget.controller!.text.isNotEmpty) {
                   setState(() {
-                    widget.controller.text = widget.controller.text.substring(0, widget.controller.text.length - 1);
+                    widget.controller!.text = widget.controller!.text.substring(0, widget.controller!.text.length - 1);
                   });
                 }
-                widget.onChanged!(widget.controller.text);
+                widget.onChanged!(widget.controller!.text);
               }),
         ],
       ),
@@ -155,7 +155,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           child: SizedBox(),
         ),
         Text(
-          "₦${widget.controller.text}",
+          "₦${widget.controller!.text}",
           key: const Key('amtKey'),
           textAlign: TextAlign.center,
           style: TextStyle(

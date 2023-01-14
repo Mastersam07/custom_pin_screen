@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('custom keyboard is displayed ...', (tester) async {
     const length = 7;
+   TextEditingController controller = TextEditingController();
     num? amount;
     await tester.pumpWidget(
       MaterialApp(
@@ -14,7 +15,7 @@ void main() {
             maxLength: length,
             onChanged: (p0) {
               amount = num.tryParse(p0);
-            },
+            }, controller: controller,
           ),
         ),
       ),

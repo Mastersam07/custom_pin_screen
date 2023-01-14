@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PinAuthentication(
-                      pinTheme: PinTheme(
+                      pinTheme: KeyBoardPinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
                         backgroundColor: Colors.green,
