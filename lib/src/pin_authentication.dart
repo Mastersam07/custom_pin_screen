@@ -62,7 +62,7 @@ class PinAuthentication extends StatefulWidget {
 }
 
 class _PinAuthenticationState extends State<PinAuthentication> {
-  String pin = "";
+  TextEditingController pin = TextEditingController();
   KeyBoardPinTheme get _pinTheme => widget.pinTheme;
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
@@ -98,14 +98,14 @@ class _PinAuthenticationState extends State<PinAuthentication> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () async {
-                if (pin.length < widget.maxLength) {
+                if (pin.text.length < widget.maxLength) {
                   setState(() {
-                    pin = pin + buttonNumber.toString();
+                    pin.text = pin.text + buttonNumber.toString();
                   });
                 }
-                widget.onChanged!(pin);
-                if (pin.length >= 4 && widget.onCompleted != null) {
-                  widget.onCompleted!(pin);
+                widget.onChanged!(pin.text);
+                if (pin.text.length >= 4 && widget.onCompleted != null) {
+                  widget.onCompleted!(pin.text);
                 }
               },
             ))
@@ -137,14 +137,14 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           buildNumberButton(
             number: 0,
             onPressed: () async {
-              if (pin.length < widget.maxLength) {
+              if (pin.text.length < widget.maxLength) {
                 setState(() {
-                  pin = pin + 0.toString();
+                  pin.text = pin.text + 0.toString();
                 });
               }
-              widget.onChanged!(pin);
-              if (pin.length >= 4 && widget.onCompleted != null) {
-                await widget.onCompleted!(pin);
+              widget.onChanged!(pin.text);
+              if (pin.text.length >= 4 && widget.onCompleted != null) {
+                await widget.onCompleted!(pin.text);
               }
             },
           ),
@@ -155,12 +155,12 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                 color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
-                if (pin.isNotEmpty) {
+                if (pin.text.isNotEmpty) {
                   setState(() {
-                    pin = pin.substring(0, pin.length - 1);
+                    pin.text = pin.text.substring(0, pin.text.length - 1);
                   });
                 }
-                widget.onChanged!(pin);
+                widget.onChanged!(pin.text);
               }),
         ],
       ),
