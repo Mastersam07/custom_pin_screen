@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:custom_pin_screen/src/pin_code_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart' as pin_code;
 
 import 'theme.dart';
-import 'pin_code_field.dart';
 
 /// Pin authentication screen
 class PinAuthentication extends StatefulWidget {
@@ -64,10 +62,10 @@ class PinAuthentication extends StatefulWidget {
   @override
   _PinAuthenticationState createState() => _PinAuthenticationState();
 }
+String? currentText;
 
 class _PinAuthenticationState extends State<PinAuthentication> {
   TextEditingController pin = TextEditingController();
-  KeyBoardPinTheme get _pinTheme => widget.keyBoardPinTheme;
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -191,8 +189,6 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           "You can't use submitLabel onbuttonClick on empty submitLabel");
     }
     StreamController<pin_code.ErrorAnimationType>? errorController;
-    TextEditingController textEditingController = TextEditingController();
-    String? currentText;
     return Scaffold(
       backgroundColor: widget.keyBoardPinTheme.backgroundColor,
       body: Column(
