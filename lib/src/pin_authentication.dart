@@ -31,7 +31,9 @@ class PinAuthentication extends StatefulWidget {
   final Function()? onSpecialKeyTap;
 
   /// Theme for the widget and pin cells. Read more [PinTheme]
-  final KeyBoardPinTheme pinTheme;
+  final KeyBoardPinTheme keyBoardPinTheme;
+  final pin_code.PinTheme pinTheme;
+  final bool  obscureText;
 
   /// Decides whether finger print is enabled or not. Default is false
   final bool? useFingerprint;
@@ -52,7 +54,9 @@ class PinAuthentication extends StatefulWidget {
     this.onChanged,
     this.specialKey,
     this.maxLength = 4,
-    this.pinTheme = const KeyBoardPinTheme.defaults(),
+    required this.obscureText,
+    this.keyBoardPinTheme = const KeyBoardPinTheme.defaults(),
+    required this.pinTheme,
     this.useFingerprint = false,
     this.onCompleted,
   })  : assert(maxLength > 0 && maxLength < 7),
@@ -63,7 +67,7 @@ class PinAuthentication extends StatefulWidget {
 
 class _PinAuthenticationState extends State<PinAuthentication> {
   TextEditingController pin = TextEditingController();
-  KeyBoardPinTheme get _pinTheme => widget.pinTheme;
+  KeyBoardPinTheme get _pinTheme => widget.keyBoardPinTheme;
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -74,7 +78,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: widget.pinTheme.keysColor,
+            color: widget.keyBoardPinTheme.keysColor,
           ),
         );
       }
@@ -129,7 +133,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   ? Icon(
                       Icons.fingerprint,
                       key: const Key('fingerprint'),
-                      color: widget.pinTheme.keysColor,
+                      color: widget.keyBoardPinTheme.keysColor,
                       size: 50,
                     )
                   : widget.specialKey ?? const SizedBox(),
@@ -152,7 +156,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
               icon: Icon(
                 Icons.backspace,
                 key: const Key('backspace'),
-                color: widget.pinTheme.keysColor,
+                color: widget.keyBoardPinTheme.keysColor,
               ),
               onPressed: () {
                 if (pin.text.isNotEmpty) {
@@ -190,7 +194,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
     TextEditingController textEditingController = TextEditingController();
     String? currentText;
     return Scaffold(
-      backgroundColor: widget.pinTheme.backgroundColor,
+      backgroundColor: widget.keyBoardPinTheme.backgroundColor,
       body: Column(
         children: [
           const Expanded(
@@ -227,7 +231,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                 fontWeight: FontWeight.bold,
               ),
               length: 4,
-              obscureText: false,
+              obscureText: widget.obscureText,
               obscuringCharacter: '*',
               autoFocus: true,
               readOnly: true,
@@ -240,20 +244,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   return null;
                 }
               },
-              pinTheme:  pin_code.PinTheme(
-                  shape: pin_code.PinCodeFieldShape.underline,
-                  borderWidth: 2,
-                  borderRadius: BorderRadius.circular(5),
-                  fieldHeight: 50,
-                  fieldWidth: 50,
-                  inactiveColor: Colors.grey.shade100,
-                  activeColor: Colors.green,
-                  selectedColor: Colors.greenAccent,
-                  inactiveFillColor: Colors.grey.shade100,
-                  activeFillColor: Colors.grey.shade100,
-                  selectedFillColor: Colors.grey.shade100
-
-              ),
+              pinTheme:  widget.pinTheme,
               animationDuration: const Duration(milliseconds: 300),
               textStyle: const TextStyle(
                 color: Colors.blue,

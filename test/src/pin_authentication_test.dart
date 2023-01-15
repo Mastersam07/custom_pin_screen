@@ -2,6 +2,7 @@ import 'package:custom_pin_screen/src/src.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pin_code_fields/pin_code_fields.dart' as pin_code;
 
 void main() {
   testWidgets('pin authentication works well...', (tester) async {
@@ -13,7 +14,7 @@ void main() {
             key: const Key('keyboardKey'),
             onChanged: (p0) {
               pin = p0;
-            },
+            }, obscureText:false, pinTheme: pin_code.PinTheme(),
           ),
         ),
       ),
@@ -65,7 +66,8 @@ void main() {
               if (kDebugMode) {
                 print(pin);
               }
-            },
+            }, obscureText: false,
+            pinTheme: pin_code.PinTheme(),
           ),
         ),
       ),
@@ -83,7 +85,8 @@ void main() {
           child: PinAuthentication(
             key: const Key('keyboardKey'),
             onChanged: (p0) {},
-            useFingerprint: true,
+            useFingerprint: true, obscureText: false,
+            pinTheme: pin_code.PinTheme(),
           ),
         ),
       ),
@@ -99,13 +102,14 @@ void main() {
       MaterialApp(
         home: Material(
           child: PinAuthentication(
+            pinTheme: pin_code.PinTheme(),
             key: const Key('keyboardKey'),
             onChanged: (p0) {
               if (kDebugMode) {
                 print(p0);
               }
             },
-            specialKey: const Text('A'),
+            specialKey: const Text('A'), obscureText: false,
           ),
         ),
       ),
@@ -127,7 +131,7 @@ void main() {
                 print(p0);
               }
             },
-            submitLabel: const Text('A'),
+            submitLabel: const Text('A'), obscureText: false, pinTheme: pin_code.PinTheme(),
           ),
         ),
       ),

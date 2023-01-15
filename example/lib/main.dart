@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_pin_screen/custom_pin_screen.dart';
+import 'package:pin_code_fields/pin_code_fields.dart' as pin_code;
 
 void main() {
   runApp(const MyApp());
@@ -47,13 +48,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PinAuthentication(
-                      pinTheme: KeyBoardPinTheme(
+                      obscureText: false,
+                      keyBoardPinTheme: KeyBoardPinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
                         backgroundColor: Colors.green,
                         keysColor: Colors.white,
                         activeFillColor:
                             const Color(0xFFF7F8FF).withOpacity(0.13),
+                      ),
+                      pinTheme: pin_code.PinTheme(
+                          shape: pin_code.PinCodeFieldShape.underline,
+                          borderWidth: 2,
+                          borderRadius: BorderRadius.circular(5),
+                          fieldHeight: 50,
+                          fieldWidth: 50,
+                          inactiveColor: Colors.grey.shade100,
+                          activeColor: Colors.green,
+                          selectedColor: Colors.greenAccent,
+                          inactiveFillColor: Colors.grey.shade100,
+                          activeFillColor: Colors.grey.shade100,
+                          selectedFillColor: Colors.grey.shade100
+
                       ),
                       onChanged: (v) {
                         if (kDebugMode) {
