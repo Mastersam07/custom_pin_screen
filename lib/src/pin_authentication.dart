@@ -31,7 +31,7 @@ class PinAuthentication extends StatefulWidget {
   /// Theme for the widget and pin cells. Read more [PinTheme]
   final KeyBoardPinTheme keyBoardPinTheme;
   final pin_code.PinTheme pinTheme;
-  final bool  obscureText;
+  final bool obscureText;
 
   /// Decides whether finger print is enabled or not. Default is false
   final bool? useFingerprint;
@@ -62,6 +62,7 @@ class PinAuthentication extends StatefulWidget {
   @override
   _PinAuthenticationState createState() => _PinAuthenticationState();
 }
+
 String? currentText;
 
 class _PinAuthenticationState extends State<PinAuthentication> {
@@ -240,7 +241,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   return null;
                 }
               },
-              pinTheme:  widget.pinTheme,
+              pinTheme: widget.pinTheme,
               animationDuration: const Duration(milliseconds: 300),
               textStyle: const TextStyle(
                 color: Colors.blue,
@@ -258,17 +259,15 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                 )
               ],
               onCompleted: (v) async {
-               debugPrint(v);
-
+                debugPrint(v);
               },
               // onTap: () {
               //   print("Pressed");
               // },
-              onChanged: (value){
+              onChanged: (value) {
                 debugPrint("Value ===> $value");
-                setState(()  {
+                setState(() {
                   currentText = value;
-
                 });
               },
               beforeTextPaste: (text) {
@@ -277,7 +276,6 @@ class _PinAuthenticationState extends State<PinAuthentication> {
               },
             ),
           ),
-
           Expanded(
             flex: 2,
             child: Container(
