@@ -5,7 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('first pin code field color when  unselected ...',
       (tester) async {
-    KeyBoardPinTheme theme = KeyBoardPinTheme(shape: PinCodeFieldShape.underline);
+    KeyBoardPinTheme theme =
+        KeyBoardPinTheme(shape: PinCodeFieldShape.underline);
     await tester.pumpWidget(
       MaterialApp(
         home: Material(

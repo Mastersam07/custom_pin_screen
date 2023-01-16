@@ -14,7 +14,9 @@ void main() {
             key: const Key('keyboardKey'),
             onChanged: (p0) {
               pin = p0;
-            }, obscureText:false, pinTheme: pin_code.PinTheme(),
+            },
+            obscureText: false,
+            pinTheme: pin_code.PinTheme(),
           ),
         ),
       ),
@@ -66,7 +68,8 @@ void main() {
               if (kDebugMode) {
                 print(pin);
               }
-            }, obscureText: false,
+            },
+            obscureText: false,
             pinTheme: pin_code.PinTheme(),
           ),
         ),
@@ -85,7 +88,8 @@ void main() {
           child: PinAuthentication(
             key: const Key('keyboardKey'),
             onChanged: (p0) {},
-            useFingerprint: true, obscureText: false,
+            useFingerprint: true,
+            obscureText: false,
             pinTheme: pin_code.PinTheme(),
           ),
         ),
@@ -109,7 +113,8 @@ void main() {
                 print(p0);
               }
             },
-            specialKey: const Text('A'), obscureText: false,
+            specialKey: const Text('A'),
+            obscureText: false,
           ),
         ),
       ),
@@ -131,7 +136,9 @@ void main() {
                 print(p0);
               }
             },
-            submitLabel: const Text('A'), obscureText: false, pinTheme: pin_code.PinTheme(),
+            submitLabel: const Text('A'),
+            obscureText: false,
+            pinTheme: pin_code.PinTheme(),
           ),
         ),
       ),

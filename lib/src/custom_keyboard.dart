@@ -24,8 +24,8 @@ class CustomKeyBoard extends StatefulWidget {
 
   /// maximum length of the amount.
   final int? maxLength;
- // final TextEditingController value;
- final TextEditingController? controller;
+  // final TextEditingController value;
+  final TextEditingController? controller;
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
@@ -42,7 +42,6 @@ class CustomKeyBoard extends StatefulWidget {
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -73,7 +72,8 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               onPressed: () {
                 if (widget.controller!.text.length < widget.maxLength!) {
                   setState(() {
-                    widget.controller!.text = widget.controller!.text + buttonNumber.toString();
+                    widget.controller!.text =
+                        widget.controller!.text + buttonNumber.toString();
                   });
                   widget.onChanged!(widget.controller!.text);
                 }
@@ -119,7 +119,8 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
             onPressed: () {
               if (widget.controller!.text.length < widget.maxLength!) {
                 setState(() {
-                  widget.controller!.text = widget.controller!.text + 0.toString();
+                  widget.controller!.text =
+                      widget.controller!.text + 0.toString();
                 });
                 widget.onChanged!(widget.controller!.text);
               }
@@ -134,7 +135,8 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               onPressed: () {
                 if (widget.controller!.text.isNotEmpty) {
                   setState(() {
-                    widget.controller!.text = widget.controller!.text.substring(0, widget.controller!.text.length - 1);
+                    widget.controller!.text = widget.controller!.text
+                        .substring(0, widget.controller!.text.length - 1);
                   });
                 }
                 widget.onChanged!(widget.controller!.text);
@@ -154,7 +156,6 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         const Expanded(
           child: SizedBox(),
         ),
-
         const SizedBox(
           height: 80,
         ),
@@ -172,7 +173,6 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
             ),
           ),
         ),
-
       ],
     );
   }
