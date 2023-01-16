@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// Custom keyboard
 class CustomKeyBoard extends StatefulWidget {
   /// Theme for the widget. Read more [PinTheme]
-  final PinTheme pinTheme;
+  final KeyBoardPinTheme pinTheme;
 
   /// special key to be displayed on the widget. Default is '.'
   final Widget? specialKey;
@@ -24,11 +24,13 @@ class CustomKeyBoard extends StatefulWidget {
 
   /// maximum length of the amount.
   final int? maxLength;
-
+  // final TextEditingController value;
+  final TextEditingController? controller;
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
-    this.pinTheme = const PinTheme.defaults(),
+    this.controller,
+    this.pinTheme = const KeyBoardPinTheme.defaults(),
     this.specialKey,
     this.onbuttonClick,
     this.onChanged,
@@ -40,7 +42,6 @@ class CustomKeyBoard extends StatefulWidget {
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-  String value = "";
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -69,11 +70,12 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength!) {
+                if (widget.controller!.text.length < widget.maxLength!) {
                   setState(() {
-                    value = value + buttonNumber.toString();
+                    widget.controller!.text =
+                        widget.controller!.text + buttonNumber.toString();
                   });
-                  widget.onChanged!(value);
+                  widget.onChanged!(widget.controller!.text);
                 }
               },
             ))
@@ -102,24 +104,25 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (value.length < widget.maxLength!) {
-                    if (!value.contains(".")) {
+                  if (widget.controller!.text.length < widget.maxLength!) {
+                    if (!widget.controller!.text.contains(".")) {
                       setState(() {
-                        value = value + ".";
+                        widget.controller!.text = widget.controller!.text + ".";
                       });
                     }
-                    widget.onChanged!(value);
+                    widget.onChanged!(widget.controller!.text);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength!) {
+              if (widget.controller!.text.length < widget.maxLength!) {
                 setState(() {
-                  value = value + 0.toString();
+                  widget.controller!.text =
+                      widget.controller!.text + 0.toString();
                 });
-                widget.onChanged!(value);
+                widget.onChanged!(widget.controller!.text);
               }
             },
           ),
@@ -130,12 +133,13 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
-                if (value.isNotEmpty) {
+                if (widget.controller!.text.isNotEmpty) {
                   setState(() {
-                    value = value.substring(0, value.length - 1);
+                    widget.controller!.text = widget.controller!.text
+                        .substring(0, widget.controller!.text.length - 1);
                   });
                 }
-                widget.onChanged!(value);
+                widget.onChanged!(widget.controller!.text);
               }),
         ],
       ),
@@ -151,16 +155,6 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
       children: [
         const Expanded(
           child: SizedBox(),
-        ),
-        Text(
-          "₦$value",
-          key: const Key('amtKey'),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: widget.pinTheme.textColor,
-            fontWeight: FontWeight.w700,
-            fontSize: 48,
-          ),
         ),
         const SizedBox(
           height: 80,
@@ -179,26 +173,6 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            widget.onbuttonClick!();
-          },
-          child: Container(
-            color: widget.pinTheme.submitColor,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Center(
-                child: widget.submitLabel ??
-                    const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }

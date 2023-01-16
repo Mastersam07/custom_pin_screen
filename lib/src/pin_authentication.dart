@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:pin_code_fields/pin_code_fields.dart' as pin_code;
 
 import 'theme.dart';
-import 'pin_code_field.dart';
 
 /// Pin authentication screen
 class PinAuthentication extends StatefulWidget {
@@ -27,7 +29,9 @@ class PinAuthentication extends StatefulWidget {
   final Function()? onSpecialKeyTap;
 
   /// Theme for the widget and pin cells. Read more [PinTheme]
-  final PinTheme pinTheme;
+  final KeyBoardPinTheme keyBoardPinTheme;
+  final pin_code.PinTheme pinTheme;
+  final bool obscureText;
 
   /// Decides whether finger print is enabled or not. Default is false
   final bool? useFingerprint;
@@ -48,7 +52,9 @@ class PinAuthentication extends StatefulWidget {
     this.onChanged,
     this.specialKey,
     this.maxLength = 4,
-    this.pinTheme = const PinTheme.defaults(),
+    required this.obscureText,
+    this.keyBoardPinTheme = const KeyBoardPinTheme.defaults(),
+    required this.pinTheme,
     this.useFingerprint = false,
     this.onCompleted,
   })  : assert(maxLength > 0 && maxLength < 7),
@@ -57,9 +63,10 @@ class PinAuthentication extends StatefulWidget {
   _PinAuthenticationState createState() => _PinAuthenticationState();
 }
 
+String? currentText;
+
 class _PinAuthenticationState extends State<PinAuthentication> {
-  String pin = "";
-  PinTheme get _pinTheme => widget.pinTheme;
+  TextEditingController pin = TextEditingController();
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -70,7 +77,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: widget.pinTheme.keysColor,
+            color: widget.keyBoardPinTheme.keysColor,
           ),
         );
       }
@@ -94,14 +101,14 @@ class _PinAuthenticationState extends State<PinAuthentication> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () async {
-                if (pin.length < widget.maxLength) {
+                if (pin.text.length < widget.maxLength) {
                   setState(() {
-                    pin = pin + buttonNumber.toString();
+                    pin.text = pin.text + buttonNumber.toString();
                   });
                 }
-                widget.onChanged!(pin);
-                if (pin.length >= 4 && widget.onCompleted != null) {
-                  widget.onCompleted!(pin);
+                widget.onChanged!(pin.text);
+                if (pin.text.length >= 4 && widget.onCompleted != null) {
+                  widget.onCompleted!(pin.text);
                 }
               },
             ))
@@ -125,7 +132,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   ? Icon(
                       Icons.fingerprint,
                       key: const Key('fingerprint'),
-                      color: widget.pinTheme.keysColor,
+                      color: widget.keyBoardPinTheme.keysColor,
                       size: 50,
                     )
                   : widget.specialKey ?? const SizedBox(),
@@ -133,14 +140,14 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           buildNumberButton(
             number: 0,
             onPressed: () async {
-              if (pin.length < widget.maxLength) {
+              if (pin.text.length < widget.maxLength) {
                 setState(() {
-                  pin = pin + 0.toString();
+                  pin.text = pin.text + 0.toString();
                 });
               }
-              widget.onChanged!(pin);
-              if (pin.length >= 4 && widget.onCompleted != null) {
-                await widget.onCompleted!(pin);
+              widget.onChanged!(pin.text);
+              if (pin.text.length >= 4 && widget.onCompleted != null) {
+                await widget.onCompleted!(pin.text);
               }
             },
           ),
@@ -148,15 +155,15 @@ class _PinAuthenticationState extends State<PinAuthentication> {
               icon: Icon(
                 Icons.backspace,
                 key: const Key('backspace'),
-                color: widget.pinTheme.keysColor,
+                color: widget.keyBoardPinTheme.keysColor,
               ),
               onPressed: () {
-                if (pin.isNotEmpty) {
+                if (pin.text.isNotEmpty) {
                   setState(() {
-                    pin = pin.substring(0, pin.length - 1);
+                    pin.text = pin.text.substring(0, pin.text.length - 1);
                   });
                 }
-                widget.onChanged!(pin);
+                widget.onChanged!(pin.text);
               }),
         ],
       ),
@@ -182,8 +189,9 @@ class _PinAuthenticationState extends State<PinAuthentication> {
       throw AssertionError(
           "You can't use submitLabel onbuttonClick on empty submitLabel");
     }
+    StreamController<pin_code.ErrorAnimationType>? errorController;
     return Scaffold(
-      backgroundColor: widget.pinTheme.backgroundColor,
+      backgroundColor: widget.keyBoardPinTheme.backgroundColor,
       body: Column(
         children: [
           const Expanded(
@@ -211,20 +219,62 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           const SizedBox(
             height: 40,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 0; i < widget.maxLength; i++)
-                PinCodeField(
-                  key: Key('pinField$i'),
-                  pin: pin,
-                  pinCodeFieldIndex: i,
-                  theme: _pinTheme,
-                ),
-            ],
-          ),
-          const SizedBox(
-            height: 80,
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 32, bottom: 34),
+            child: pin_code.PinCodeTextField(
+              appContext: context,
+              pastedTextStyle: const TextStyle(
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
+              length: 4,
+              obscureText: widget.obscureText,
+              obscuringCharacter: '*',
+              autoFocus: true,
+              readOnly: true,
+              autoDisposeControllers: false,
+              animationType: pin_code.AnimationType.fade,
+              validator: (v) {
+                if (v!.length < 4) {
+                  return 'pin less than 4';
+                } else {
+                  return null;
+                }
+              },
+              pinTheme: widget.pinTheme,
+              animationDuration: const Duration(milliseconds: 300),
+              textStyle: const TextStyle(
+                color: Colors.blue,
+                fontSize: 20,
+              ),
+              enableActiveFill: true,
+              errorAnimationController: errorController,
+              controller: pin,
+              keyboardType: TextInputType.number,
+              boxShadows: const [
+                BoxShadow(
+                  offset: Offset(0, 1),
+                  color: Colors.black12,
+                  blurRadius: 10,
+                )
+              ],
+              onCompleted: (v) async {
+                debugPrint(v);
+              },
+              // onTap: () {
+              //   print("Pressed");
+              // },
+              onChanged: (value) {
+                debugPrint("Value ===> $value");
+                setState(() {
+                  currentText = value;
+                });
+              },
+              beforeTextPaste: (text) {
+                debugPrint("Allowing to paste $text");
+                return true;
+              },
+            ),
           ),
           Expanded(
             flex: 2,

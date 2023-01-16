@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 enum PinCodeFieldShape { box, underline, circle }
 
-class PinTheme {
+class KeyBoardPinTheme {
   /// Colors of the input fields which have inputs. Default is [Colors.white]
   final Color backgroundColor;
 
@@ -51,7 +51,7 @@ class PinTheme {
   /// this defines the padding of each enclosing container of an input field. Default is [0.0]
   final EdgeInsetsGeometry fieldOuterPadding;
 
-  const PinTheme.defaults({
+  const KeyBoardPinTheme.defaults({
     this.backgroundColor = Colors.white,
     this.textColor = Colors.blue,
     this.keysColor = Colors.black,
@@ -70,7 +70,7 @@ class PinTheme {
     this.inactiveFillColor = Colors.red,
   });
 
-  factory PinTheme(
+  factory KeyBoardPinTheme(
       {Color? backgroundColor,
       Color? textColor,
       Color? submitColor,
@@ -87,8 +87,8 @@ class PinTheme {
       double? borderWidth,
       PinCodeFieldShape? shape,
       EdgeInsetsGeometry? fieldOuterPadding}) {
-    const defaultValues = PinTheme.defaults();
-    return PinTheme.defaults(
+    const defaultValues = KeyBoardPinTheme.defaults();
+    return KeyBoardPinTheme.defaults(
       backgroundColor: backgroundColor ?? defaultValues.backgroundColor,
       textColor: textColor ?? defaultValues.textColor,
       submitColor: submitColor ?? defaultValues.submitColor,

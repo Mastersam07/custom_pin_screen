@@ -15,7 +15,7 @@ class PinCodeField extends StatelessWidget {
   final String pin;
 
   /// The the index of the pin code field
-  final PinTheme theme;
+  final KeyBoardPinTheme theme;
 
   /// The index of the pin code field
   final int pinCodeFieldIndex;

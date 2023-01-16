@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_pin_screen/custom_pin_screen.dart';
+import 'package:pin_code_fields/pin_code_fields.dart' as pin_code;
 
 void main() {
   runApp(const MyApp());
@@ -47,7 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PinAuthentication(
-                      pinTheme: PinTheme(
+                      obscureText: false,
+                      keyBoardPinTheme: KeyBoardPinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
                         backgroundColor: Colors.green,
@@ -55,6 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         activeFillColor:
                             const Color(0xFFF7F8FF).withOpacity(0.13),
                       ),
+                      pinTheme: pin_code.PinTheme(
+                          shape: pin_code.PinCodeFieldShape.underline,
+                          borderWidth: 2,
+                          borderRadius: BorderRadius.circular(5),
+                          fieldHeight: 50,
+                          fieldWidth: 50,
+                          inactiveColor: Colors.grey.shade100,
+                          activeColor: Colors.green,
+                          selectedColor: Colors.greenAccent,
+                          inactiveFillColor: Colors.grey.shade100,
+                          activeFillColor: Colors.grey.shade100,
+                          selectedFillColor: Colors.grey.shade100),
                       onChanged: (v) {
                         if (kDebugMode) {
                           print(v);
@@ -106,6 +120,7 @@ class WalletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController textEditingController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -140,12 +155,28 @@ class WalletScreen extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 32),
+            child: TextField(
+              controller: textEditingController,
+
+              ///Remember to set the read only property of the readOnly
+              /// textField to true to prevent the native keyboard from popping up
+              readOnly: true,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w700,
+                fontSize: 48,
+              ),
+              decoration: const InputDecoration(border: InputBorder.none),
+            ),
+          ),
           Expanded(
               child: CustomKeyBoard(
-            pinTheme: PinTheme(
-                submitColor: Colors.green,
-                textColor: Colors.red,
-                keysColor: Colors.blue),
+            controller: textEditingController,
+            pinTheme:
+                KeyBoardPinTheme(textColor: Colors.red, keysColor: Colors.blue),
             onChanged: (v) {
               if (kDebugMode) {
                 print(v);
@@ -157,6 +188,7 @@ class WalletScreen extends StatelessWidget {
               }
             },
             maxLength: 4,
+
             submitLabel: const Text(
               'Proceed',
               style: TextStyle(
