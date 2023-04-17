@@ -99,10 +99,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   const WalletScreen({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<WalletScreen> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
+  String _value = "";
 
   @override
   Widget build(BuildContext context) {
@@ -140,38 +147,51 @@ class WalletScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-              child: CustomKeyBoard(
+          Text(
+            "₦$_value",
+            key: const Key('amtKey'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.w700,
+              fontSize: 48,
+            ),
+          ),
+          const SizedBox(height: 80),
+          CustomKeyBoard(
             pinTheme: PinTheme(
-                submitColor: Colors.green,
-                textColor: Colors.red,
-                keysColor: Colors.blue),
+              textColor: Colors.red,
+              keysColor: Colors.blue,
+            ),
             onChanged: (v) {
               if (kDebugMode) {
                 print(v);
-              }
-            },
-            onbuttonClick: () {
-              if (kDebugMode) {
-                print('clicked');
+                _value = v;
+                setState(() {});
               }
             },
             maxLength: 4,
-            submitLabel: const Text(
-              'Proceed',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: 50,
+                color: Colors.blue,
+                child: const Center(
+                  child: Text(
+                    "Proceed",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
               ),
             ),
-            // ),
-          ))
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
         ],
-      ),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).padding.bottom,
-        color: Colors.green,
       ),
     );
   }

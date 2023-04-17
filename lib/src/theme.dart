@@ -6,9 +6,6 @@ class PinTheme {
   /// Colors of the input fields which have inputs. Default is [Colors.white]
   final Color backgroundColor;
 
-  /// Color of the submit button
-  final Color submitColor;
-
   /// Colors of the input fields which have inputs. Default is [Colors.black]
   final Color keysColor;
 
@@ -55,7 +52,6 @@ class PinTheme {
     this.backgroundColor = Colors.white,
     this.textColor = Colors.blue,
     this.keysColor = Colors.black,
-    this.submitColor = Colors.blue,
     this.borderRadius = BorderRadius.zero,
     this.fieldHeight = 50,
     this.fieldWidth = 50,
@@ -91,7 +87,6 @@ class PinTheme {
     return PinTheme.defaults(
       backgroundColor: backgroundColor ?? defaultValues.backgroundColor,
       textColor: textColor ?? defaultValues.textColor,
-      submitColor: submitColor ?? defaultValues.submitColor,
       keysColor: keysColor ?? defaultValues.keysColor,
       activeColor: activeColor ?? defaultValues.activeColor,
       activeFillColor: activeFillColor ?? defaultValues.activeFillColor,
