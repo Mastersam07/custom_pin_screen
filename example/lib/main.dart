@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PinAuthScreen(),
+                    builder: (context) => const PinAuthScreen(),
                   ),
                 );
               },
@@ -196,14 +196,14 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 35.0,
                 vertical: 35.0,
               ),
               child: Text(
                 "Enter PIN",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   // color: Colors.white,
@@ -213,9 +213,9 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
             const SizedBox(
               height: 5,
             ),
-            Text(
+            const Text(
               "Please enter your pin to continue",
-              style: const TextStyle(
+              style: TextStyle(
                 // color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.normal,
