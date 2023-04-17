@@ -3,79 +3,111 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets(
+      'custom keyboard throws exception when maxLenght is less than 0 or null...',
+      (tester) async {
+    expect(() => CustomKeyBoard(maxLength: -1), throwsAssertionError);
+  });
+
   testWidgets('custom keyboard is displayed ...', (tester) async {
     const length = 7;
-    num? amount;
+    String value = "";
     await tester.pumpWidget(
       MaterialApp(
-        home: Material(
-          child: CustomKeyBoard(
-            key: const Key('keyboardKey'),
-            maxLength: length,
-            onChanged: (p0) {
-              amount = num.tryParse(p0);
-            },
-          ),
+        home: Column(
+          children: [
+            CustomKeyBoard(
+              pinTheme: PinTheme(
+                keysColor: Colors.white,
+              ),
+              key: const Key('keyboardKey'),
+              maxLength: length,
+              onChanged: (p0) {
+                value = p0;
+              },
+            ),
+          ],
         ),
       ),
     );
 
     // Checks if widget renders
     var keyboardWidgetfinder = find.byKey(const Key('keyboardKey'));
-    var amtFieldfinder = find.byKey(const Key("amtKey"));
 
     expect(keyboardWidgetfinder, findsOneWidget);
-    expect(amtFieldfinder, findsOneWidget);
     expect(find.byKey(const Key("btn1")), findsOneWidget);
 
-    // Asserts that initial state of amount field is empty
-    var text = amtFieldfinder.evaluate().single.widget as Text;
-    assert(text.data == '₦');
-
     // Tap keys
-
     await tester.tap(find.byKey(const Key("btn1")));
     await tester.tap(find.byKey(const Key("btn2")));
     await tester.tap(find.byKey(const Key("btn3")));
     await tester.tap(find.byKey(const Key("btn4")));
     await tester.pump();
-    assert(amount == 1234);
+    expect(value, "1234");
 
     // Delete a digit
-
     await tester.tap(
         find.byWidget(tester.firstWidget(find.byKey(const Key("backspace")))));
     await tester.pump();
-    assert(amount == 123);
+    expect(value, "123");
 
     // Add Zero
-
     await tester.tap(find.byKey(const Key("btn0")));
     await tester.pump();
-    assert(amount == 1230);
+    expect(value, "1230");
 
     // Add decimal
-
     await tester.tap(
         find.byWidget(tester.firstWidget(find.byKey(const Key("specialKey")))));
     await tester.pump();
-    assert(amount == 1230.0);
+    expect(value, "1230.");
+
+    await tester.tap(find.byKey(const Key("btn4")));
+    await tester.pump();
+    expect(value, "1230.4");
   });
 
-  testWidgets(
-      'custom keyboard throws exception when maxLenght is less than 0 or null...',
-      (tester) async {
+  testWidgets('calls onCompleted when maxLength is reached',
+      (WidgetTester tester) async {
+    String result = '';
+
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Material(
-          child: CustomKeyBoard(
-            key: Key('keyboardKey'),
-            maxLength: -1,
-          ),
+      MaterialApp(
+        home: Column(
+          children: [
+            CustomKeyBoard(
+              maxLength: 4,
+              onCompleted: (value) {
+                result = value;
+              },
+              onChanged: (p0) {},
+            ),
+          ],
         ),
       ),
     );
 
-    expect(tester.takeException(), isAssertionError);
+    await tester.tap(find.text('1'));
+    await tester.tap(find.text('2'));
+    await tester.tap(find.text('3'));
+    await tester.tap(find.text('4'));
+
+    expect(result, equals('1234'));
+
+    // Delete a digit
+    await tester.tap(
+        find.byWidget(tester.firstWidget(find.byKey(const Key("backspace")))));
+    // Use the special . key
+    await tester.tap(
+        find.byWidget(tester.firstWidget(find.byKey(const Key("specialKey")))));
+    await tester.pump();
+    expect(result, "123.");
+
+    // Delete a digit
+    await tester.tap(
+        find.byWidget(tester.firstWidget(find.byKey(const Key("backspace")))));
+    // Tap 0 button
+    await tester.tap(find.byKey(const Key("btn0")));
+    expect(result, "1230");
   });
 }

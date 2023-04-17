@@ -1,3 +1,8 @@
+## 0.5.0
+
+* Breaking change: Expose keyboard for ease of use.
+* Update doc to reflect new usage.
+
 ## 0.3.0
 
 * Added theme to widgets for easy styling.

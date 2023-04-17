@@ -10,31 +10,28 @@ class CustomKeyBoard extends StatefulWidget {
   /// special key to be displayed on the widget. Default is '.'
   final Widget? specialKey;
 
-  /// on pressed function to be called when the submit button is pressed.
-  final Function? onbuttonClick;
-
   /// on changed function to be called when the amount is changed.
   final Function(String)? onChanged;
+
+  /// on competed function to be called when the pin code is complete.
+  final Function(String)? onCompleted;
 
   /// function to be called when special keys are pressed.
   final Function()? specialKeyOnTap;
 
-  /// submit button text.
-  final Widget? submitLabel;
-
   /// maximum length of the amount.
-  final int? maxLength;
+  final int maxLength;
 
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
     this.pinTheme = const PinTheme.defaults(),
     this.specialKey,
-    this.onbuttonClick,
     this.onChanged,
     this.specialKeyOnTap,
-    this.submitLabel,
-  }) : super(key: key);
+    this.onCompleted,
+  })  : assert(maxLength > 0),
+        super(key: key);
   @override
   _CustomKeyBoardState createState() => _CustomKeyBoardState();
 }
@@ -69,11 +66,15 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength!) {
+                if (value.length < widget.maxLength) {
                   setState(() {
                     value = value + buttonNumber.toString();
                   });
-                  widget.onChanged!(value);
+                }
+                widget.onChanged!(value);
+                if (value.length >= widget.maxLength &&
+                    widget.onCompleted != null) {
+                  widget.onCompleted!(value);
                 }
               },
             ))
@@ -102,24 +103,32 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (value.length < widget.maxLength!) {
+                  if (value.length < widget.maxLength) {
                     if (!value.contains(".")) {
                       setState(() {
                         value = value + ".";
                       });
                     }
-                    widget.onChanged!(value);
+                  }
+                  widget.onChanged!(value);
+                  if (value.length >= widget.maxLength &&
+                      widget.onCompleted != null) {
+                    widget.onCompleted!(value);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength!) {
+              if (value.length < widget.maxLength) {
                 setState(() {
                   value = value + 0.toString();
                 });
-                widget.onChanged!(value);
+              }
+              widget.onChanged!(value);
+              if (value.length >= widget.maxLength &&
+                  widget.onCompleted != null) {
+                widget.onCompleted!(value);
               }
             },
           ),
@@ -144,62 +153,18 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.maxLength == null || widget.maxLength! < 1) {
-      throw AssertionError('maxLength must be greater than 0');
-    }
-    return Column(
-      children: [
-        const Expanded(
-          child: SizedBox(),
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          children: [
+            buildNumberRow([1, 2, 3]),
+            buildNumberRow([4, 5, 6]),
+            buildNumberRow([7, 8, 9]),
+            buildSpecialRow(),
+          ],
         ),
-        Text(
-          "₦$value",
-          key: const Key('amtKey'),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: widget.pinTheme.textColor,
-            fontWeight: FontWeight.w700,
-            fontSize: 48,
-          ),
-        ),
-        const SizedBox(
-          height: 80,
-        ),
-        Expanded(
-          flex: 2,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              children: [
-                buildNumberRow([1, 2, 3]),
-                buildNumberRow([4, 5, 6]),
-                buildNumberRow([7, 8, 9]),
-                buildSpecialRow(),
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            widget.onbuttonClick!();
-          },
-          child: Container(
-            color: widget.pinTheme.submitColor,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Center(
-                child: widget.submitLabel ??
-                    const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-              ),
-            ),
-          ),
-        )
-      ],
+      ),
     );
   }
 }

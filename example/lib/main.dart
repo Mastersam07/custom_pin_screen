@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_pin_screen/custom_pin_screen.dart';
 
+import 'pin_code_field.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -46,34 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PinAuthentication(
-                      pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.box,
-                        borderRadius: BorderRadius.circular(5),
-                        backgroundColor: Colors.green,
-                        keysColor: Colors.white,
-                        activeFillColor:
-                            const Color(0xFFF7F8FF).withOpacity(0.13),
-                      ),
-                      onChanged: (v) {
-                        if (kDebugMode) {
-                          print(v);
-                        }
-                      },
-                      onCompleted: (v) {
-                        if (kDebugMode) {
-                          print('completed: $v');
-                        }
-                      },
-                      maxLength: 4,
-                      onSpecialKeyTap: () {
-                        if (kDebugMode) {
-                          print('fingerprint');
-                        }
-                      },
-                      // specialKey: const SizedBox(),
-                      useFingerprint: true,
-                    ),
+                    builder: (context) => const PinAuthScreen(),
                   ),
                 );
               },
@@ -99,10 +74,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   const WalletScreen({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<WalletScreen> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
+  String _value = "";
 
   @override
   Widget build(BuildContext context) {
@@ -140,38 +122,141 @@ class WalletScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-              child: CustomKeyBoard(
+          Text(
+            "₦$_value",
+            key: const Key('amtKey'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.w700,
+              fontSize: 48,
+            ),
+          ),
+          const SizedBox(height: 80),
+          CustomKeyBoard(
             pinTheme: PinTheme(
-                submitColor: Colors.green,
-                textColor: Colors.red,
-                keysColor: Colors.blue),
+              textColor: Colors.red,
+              keysColor: Colors.blue,
+            ),
             onChanged: (v) {
               if (kDebugMode) {
                 print(v);
-              }
-            },
-            onbuttonClick: () {
-              if (kDebugMode) {
-                print('clicked');
+                _value = v;
+                setState(() {});
               }
             },
             maxLength: 4,
-            submitLabel: const Text(
-              'Proceed',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: 50,
+                color: Colors.blue,
+                child: const Center(
+                  child: Text(
+                    "Proceed",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
               ),
             ),
-            // ),
-          ))
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
         ],
       ),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).padding.bottom,
-        color: Colors.green,
+    );
+  }
+}
+
+class PinAuthScreen extends StatefulWidget {
+  const PinAuthScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PinAuthScreen> createState() => _PinAuthScreenState();
+}
+
+class _PinAuthScreenState extends State<PinAuthScreen> {
+  String pin = "";
+  PinTheme pinTheme = PinTheme(
+    keysColor: Colors.white,
+  );
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.green,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 35.0,
+                vertical: 35.0,
+              ),
+              child: Text(
+                "Enter PIN",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  // color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Text(
+              "Please enter your pin to continue",
+              style: TextStyle(
+                // color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < 4; i++)
+                  PinCodeField(
+                    key: Key('pinField$i'),
+                    pin: pin,
+                    pinCodeFieldIndex: i,
+                    theme: pinTheme,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 80),
+            CustomKeyBoard(
+              pinTheme: pinTheme,
+              onChanged: (v) {
+                if (kDebugMode) {
+                  print(v);
+                  pin = v;
+                  setState(() {});
+                }
+              },
+              specialKey: Icon(
+                Icons.fingerprint,
+                key: const Key('fingerprint'),
+                color: pinTheme.keysColor,
+                size: 50,
+              ),
+              specialKeyOnTap: () {
+                if (kDebugMode) {
+                  print('fingerprint');
+                }
+              },
+              maxLength: 4,
+            ),
+          ],
+        ),
       ),
     );
   }
