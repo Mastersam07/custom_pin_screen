@@ -182,16 +182,12 @@ class PinAuthScreen extends StatefulWidget {
 class _PinAuthScreenState extends State<PinAuthScreen> {
   String pin = "";
   PinTheme pinTheme = PinTheme(
-    shape: PinCodeFieldShape.box,
-    borderRadius: BorderRadius.circular(5),
-    backgroundColor: Colors.green,
     keysColor: Colors.white,
-    activeFillColor: const Color(0xFFF7F8FF).withOpacity(0.13),
   );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: pinTheme.backgroundColor,
+      backgroundColor: Colors.green,
       body: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,

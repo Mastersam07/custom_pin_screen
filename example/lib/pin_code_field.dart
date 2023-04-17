@@ -21,43 +21,27 @@ class PinCodeField extends StatelessWidget {
 
   Color get getFillColorFromIndex {
     if (pin.length > pinCodeFieldIndex) {
-      return theme.activeFillColor;
+      return Colors.green;
     } else if (pin.length == pinCodeFieldIndex) {
-      return theme.selectedFillColor;
+      return Colors.blue;
     }
-    return theme.inactiveFillColor;
+    return Colors.red;
   }
 
   @override
   Widget build(BuildContext context) {
-    BorderRadius? borderRadius;
-    if (theme.shape != PinCodeFieldShape.circle &&
-        theme.shape != PinCodeFieldShape.underline) {
-      borderRadius = theme.borderRadius;
-    }
     return AnimatedContainer(
-      height: theme.fieldHeight,
-      width: theme.fieldWidth,
+      height: 50,
+      width: 50,
       margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        color: theme.shape == PinCodeFieldShape.underline
-            ? Colors.transparent
-            : getFillColorFromIndex,
-        borderRadius: borderRadius,
-        shape: theme.shape == PinCodeFieldShape.circle
-            ? BoxShape.circle
-            : BoxShape.rectangle,
-        border: theme.shape == PinCodeFieldShape.underline
-            ? Border(
-                bottom: BorderSide(
-                  color: getFillColorFromIndex,
-                  width: theme.borderWidth,
-                ),
-              )
-            : Border.all(
-                color: getFillColorFromIndex,
-                width: theme.borderWidth,
-              ),
+        color: getFillColorFromIndex,
+        borderRadius: BorderRadius.zero,
+        shape: BoxShape.rectangle,
+        border: Border.all(
+          color: getFillColorFromIndex,
+          width: 2,
+        ),
       ),
       duration: const Duration(microseconds: 40000),
       child: pin.length > pinCodeFieldIndex
