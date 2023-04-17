@@ -13,11 +13,14 @@ class CustomKeyBoard extends StatefulWidget {
   /// on changed function to be called when the amount is changed.
   final Function(String)? onChanged;
 
+  /// on competed function to be called when the pin code is complete.
+  final Function(String)? onCompleted;
+
   /// function to be called when special keys are pressed.
   final Function()? specialKeyOnTap;
 
   /// maximum length of the amount.
-  final int? maxLength;
+  final int maxLength;
 
   const CustomKeyBoard({
     Key? key,
@@ -26,7 +29,8 @@ class CustomKeyBoard extends StatefulWidget {
     this.specialKey,
     this.onChanged,
     this.specialKeyOnTap,
-  })  : assert(maxLength != null && maxLength > 0),
+    this.onCompleted,
+  })  : assert(maxLength > 0),
         super(key: key);
   @override
   _CustomKeyBoardState createState() => _CustomKeyBoardState();
@@ -62,11 +66,15 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength!) {
+                if (value.length < widget.maxLength) {
                   setState(() {
                     value = value + buttonNumber.toString();
                   });
-                  widget.onChanged!(value);
+                }
+                widget.onChanged!(value);
+                if (value.length >= widget.maxLength &&
+                    widget.onCompleted != null) {
+                  widget.onCompleted!(value);
                 }
               },
             ))
@@ -95,24 +103,32 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (value.length < widget.maxLength!) {
+                  if (value.length < widget.maxLength) {
                     if (!value.contains(".")) {
                       setState(() {
                         value = value + ".";
                       });
                     }
-                    widget.onChanged!(value);
+                  }
+                  widget.onChanged!(value);
+                  if (value.length >= widget.maxLength &&
+                      widget.onCompleted != null) {
+                    widget.onCompleted!(value);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength!) {
+              if (value.length < widget.maxLength) {
                 setState(() {
                   value = value + 0.toString();
                 });
-                widget.onChanged!(value);
+              }
+              widget.onChanged!(value);
+              if (value.length >= widget.maxLength &&
+                  widget.onCompleted != null) {
+                widget.onCompleted!(value);
               }
             },
           ),

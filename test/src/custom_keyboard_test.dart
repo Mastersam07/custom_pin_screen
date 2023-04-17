@@ -5,7 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('custom keyboard is displayed ...', (tester) async {
     const length = 7;
-    num? amount;
+    String value = "";
+    onCompleted(String newValue) => value = newValue;
     await tester.pumpWidget(
       MaterialApp(
         home: Column(
@@ -14,8 +15,9 @@ void main() {
               key: const Key('keyboardKey'),
               maxLength: length,
               onChanged: (p0) {
-                amount = num.tryParse(p0);
+                value = p0;
               },
+              onCompleted: onCompleted,
             ),
           ],
         ),
@@ -34,24 +36,28 @@ void main() {
     await tester.tap(find.byKey(const Key("btn3")));
     await tester.tap(find.byKey(const Key("btn4")));
     await tester.pump();
-    assert(amount == 1234);
+    expect(value, "1234");
 
     // Delete a digit
     await tester.tap(
         find.byWidget(tester.firstWidget(find.byKey(const Key("backspace")))));
     await tester.pump();
-    assert(amount == 123);
+    expect(value, "123");
 
     // Add Zero
     await tester.tap(find.byKey(const Key("btn0")));
     await tester.pump();
-    assert(amount == 1230);
+    expect(value, "1230");
 
     // Add decimal
     await tester.tap(
         find.byWidget(tester.firstWidget(find.byKey(const Key("specialKey")))));
     await tester.pump();
-    assert(amount == 1230.0);
+    expect(value, "1230.");
+
+    await tester.tap(find.byKey(const Key("btn4")));
+    await tester.pump();
+    expect(value, "1230.4");
   });
 
   testWidgets(
