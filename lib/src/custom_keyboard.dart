@@ -22,6 +22,8 @@ class CustomKeyBoard extends StatefulWidget {
   /// maximum length of the amount.
   final int maxLength;
 
+  final TextEditingController controller;
+
   const CustomKeyBoard({
     Key? key,
     required this.maxLength,
@@ -30,6 +32,7 @@ class CustomKeyBoard extends StatefulWidget {
     this.onChanged,
     this.specialKeyOnTap,
     this.onCompleted,
+    required this.controller,
   })  : assert(maxLength > 0),
         super(key: key);
   @override
@@ -37,7 +40,6 @@ class CustomKeyBoard extends StatefulWidget {
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-  String value = "";
   Widget buildNumberButton({int? number, Widget? icon, Function()? onPressed}) {
     getChild() {
       if (icon != null) {
@@ -66,15 +68,16 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
         .map((buttonNumber) => buildNumberButton(
               number: buttonNumber,
               onPressed: () {
-                if (value.length < widget.maxLength) {
+                if (widget.controller.text.length < widget.maxLength) {
                   setState(() {
-                    value = value + buttonNumber.toString();
+                    widget.controller.text =
+                        widget.controller.text + buttonNumber.toString();
                   });
                 }
-                widget.onChanged!(value);
-                if (value.length >= widget.maxLength &&
+                widget.onChanged!(widget.controller.text);
+                if (widget.controller.text.length >= widget.maxLength &&
                     widget.onCompleted != null) {
-                  widget.onCompleted!(value);
+                  widget.onCompleted!(widget.controller.text);
                 }
               },
             ))
@@ -103,32 +106,33 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 ),
             onPressed: widget.specialKeyOnTap ??
                 () {
-                  if (value.length < widget.maxLength) {
-                    if (!value.contains(".")) {
+                  if (widget.controller.text.length < widget.maxLength) {
+                    if (!widget.controller.text.contains(".")) {
                       setState(() {
-                        value = value + ".";
+                        widget.controller.text = widget.controller.text + ".";
                       });
                     }
                   }
-                  widget.onChanged!(value);
-                  if (value.length >= widget.maxLength &&
+                  widget.onChanged!(widget.controller.text);
+                  if (widget.controller.text.length >= widget.maxLength &&
                       widget.onCompleted != null) {
-                    widget.onCompleted!(value);
+                    widget.onCompleted!(widget.controller.text);
                   }
                 },
           ),
           buildNumberButton(
             number: 0,
             onPressed: () {
-              if (value.length < widget.maxLength) {
+              if (widget.controller.text.length < widget.maxLength) {
                 setState(() {
-                  value = value + 0.toString();
+                  widget.controller.text =
+                      widget.controller.text + 0.toString();
                 });
               }
-              widget.onChanged!(value);
-              if (value.length >= widget.maxLength &&
+              widget.onChanged!(widget.controller.text);
+              if (widget.controller.text.length >= widget.maxLength &&
                   widget.onCompleted != null) {
-                widget.onCompleted!(value);
+                widget.onCompleted!(widget.controller.text);
               }
             },
           ),
@@ -139,12 +143,13 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                 color: widget.pinTheme.keysColor,
               ),
               onPressed: () {
-                if (value.isNotEmpty) {
+                if (widget.controller.text.isNotEmpty) {
                   setState(() {
-                    value = value.substring(0, value.length - 1);
+                    widget.controller.text = widget.controller.text
+                        .substring(0, widget.controller.text.length - 1);
                   });
                 }
-                widget.onChanged!(value);
+                widget.onChanged!(widget.controller.text);
               }),
         ],
       ),

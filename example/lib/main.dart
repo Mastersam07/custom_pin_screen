@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_pin_screen/custom_pin_screen.dart';
+import 'package:flutter/widgets.dart';
 
 import 'pin_code_field.dart';
 
@@ -84,7 +85,7 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  String _value = "";
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +124,7 @@ class _WalletScreenState extends State<WalletScreen> {
             ),
           ),
           Text(
-            "₦$_value",
+            "₦${controller.text}",
             key: const Key('amtKey'),
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -134,6 +135,7 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
           const SizedBox(height: 80),
           CustomKeyBoard(
+            controller: controller,
             pinTheme: PinTheme(
               textColor: Colors.red,
               keysColor: Colors.blue,
@@ -141,7 +143,7 @@ class _WalletScreenState extends State<WalletScreen> {
             onChanged: (v) {
               if (kDebugMode) {
                 print(v);
-                _value = v;
+
                 setState(() {});
               }
             },
@@ -180,7 +182,7 @@ class PinAuthScreen extends StatefulWidget {
 }
 
 class _PinAuthScreenState extends State<PinAuthScreen> {
-  String pin = "";
+  TextEditingController controller = TextEditingController();
   PinTheme pinTheme = PinTheme(
     keysColor: Colors.white,
   );
@@ -226,7 +228,7 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
                 for (int i = 0; i < 4; i++)
                   PinCodeField(
                     key: Key('pinField$i'),
-                    pin: pin,
+                    pin: controller.text,
                     pinCodeFieldIndex: i,
                     theme: pinTheme,
                   ),
@@ -234,11 +236,12 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
             ),
             const SizedBox(height: 80),
             CustomKeyBoard(
+              controller: controller,
               pinTheme: pinTheme,
               onChanged: (v) {
                 if (kDebugMode) {
                   print(v);
-                  pin = v;
+
                   setState(() {});
                 }
               },
@@ -255,6 +258,17 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
               },
               maxLength: 4,
             ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  controller.clear();
+                });
+              },
+              child: const Text('Clear Pin'),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).padding.bottom,
+            )
           ],
         ),
       ),
