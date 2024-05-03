@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  flutter_version: "2.8.1"
+  flutter_version: "3.19.5"
   java_version: "8.x"
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Format code
-        run: flutter format --dry-run . --set-exit-if-changed
+        run: dart format . --set-exit-if-changed
       - name: Lint analysis
         run: flutter analyze --no-pub
       - name: Run tests
