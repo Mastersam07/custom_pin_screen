@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  //text controller
+
   testWidgets(
       'custom keyboard throws exception when maxLenght is less than 0 or null...',
       (tester) async {
-    expect(() => CustomKeyBoard(maxLength: -1), throwsAssertionError);
+    expect(
+        () => CustomKeyBoard(
+              maxLength: -1,
+              controller: TextEditingController(),
+            ),
+        throwsAssertionError);
   });
 
   testWidgets('custom keyboard is displayed ...', (tester) async {
@@ -17,6 +24,7 @@ void main() {
         home: Column(
           children: [
             CustomKeyBoard(
+              controller: TextEditingController(),
               pinTheme: PinTheme(
                 keysColor: Colors.white,
               ),
@@ -76,6 +84,7 @@ void main() {
         home: Column(
           children: [
             CustomKeyBoard(
+              controller: TextEditingController(),
               maxLength: 4,
               onCompleted: (value) {
                 result = value;
