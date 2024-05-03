@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_pin_screen/custom_pin_screen.dart';
 
-
 import 'pin_code_field.dart';
 
 void main() {
