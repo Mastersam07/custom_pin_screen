@@ -11,7 +11,7 @@ class CustomKeyBoard extends StatefulWidget {
   final Widget? specialKey;
 
   /// on changed function to be called when the amount is changed.
-  final Function(String)? onChanged;
+  final Function(String) onChanged;
 
   /// on competed function to be called when the pin code is complete.
   final Function(String)? onCompleted;
@@ -29,7 +29,7 @@ class CustomKeyBoard extends StatefulWidget {
     required this.maxLength,
     this.pinTheme = const PinTheme.defaults(),
     this.specialKey,
-    this.onChanged,
+    required this.onChanged,
     this.specialKeyOnTap,
     this.onCompleted,
     required this.controller,
