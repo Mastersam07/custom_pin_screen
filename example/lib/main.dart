@@ -87,6 +87,23 @@ class _WalletScreenState extends State<WalletScreen> {
   final TextEditingController controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(() {
+      setState(() {});
+    });
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -139,13 +156,6 @@ class _WalletScreenState extends State<WalletScreen> {
               textColor: Colors.red,
               keysColor: Colors.blue,
             ),
-            onChanged: (v) {
-              if (kDebugMode) {
-                print(v);
-
-                setState(() {});
-              }
-            },
             maxLength: 4,
           ),
           Padding(
@@ -185,6 +195,23 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
   PinTheme pinTheme = PinTheme(
     keysColor: Colors.white,
   );
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(() {
+      setState(() {});
+    });
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,13 +264,6 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
             CustomKeyBoard(
               controller: controller,
               pinTheme: pinTheme,
-              onChanged: (v) {
-                if (kDebugMode) {
-                  print(v);
-
-                  setState(() {});
-                }
-              },
               specialKey: Icon(
                 Icons.fingerprint,
                 key: const Key('fingerprint'),
