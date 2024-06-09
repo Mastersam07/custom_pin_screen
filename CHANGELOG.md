@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Fix: null on change throwing exception
+
 ## 0.5.0
 
 * Breaking change: Expose keyboard for ease of use.
