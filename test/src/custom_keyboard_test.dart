@@ -10,6 +10,7 @@ void main() {
       (tester) async {
     expect(
         () => CustomKeyBoard(
+              onChanged: (p0) {},
               maxLength: -1,
               controller: TextEditingController(),
             ),

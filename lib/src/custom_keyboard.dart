@@ -24,16 +24,22 @@ class CustomKeyBoard extends StatefulWidget {
 
   final TextEditingController controller;
 
-  const CustomKeyBoard({
-    Key? key,
-    required this.maxLength,
-    this.pinTheme = const PinTheme.defaults(),
-    this.specialKey,
-    this.onChanged,
-    this.specialKeyOnTap,
-    this.onCompleted,
-    required this.controller,
-  })  : assert(maxLength > 0),
+  final TextStyle? keysTextStyle;
+
+  const CustomKeyBoard(
+      {Key? key,
+      required this.maxLength,
+      this.pinTheme = const PinTheme.defaults(),
+      this.specialKey,
+      this.onChanged,
+      this.specialKeyOnTap,
+      this.onCompleted,
+      required this.controller,
+      this.keysTextStyle = const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+      )})
+      : assert(maxLength > 0),
         super(key: key);
   @override
   _CustomKeyBoardState createState() => _CustomKeyBoardState();
@@ -47,9 +53,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
       } else {
         return Text(
           number?.toString() ?? "",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+          style: widget.keysTextStyle?.copyWith(
             color: widget.pinTheme.keysColor,
           ),
         );
