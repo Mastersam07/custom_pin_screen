@@ -25,9 +25,7 @@ void main() {
           children: [
             CustomKeyBoard(
               controller: TextEditingController(),
-              pinTheme: PinTheme(
-                keysColor: Colors.white,
-              ),
+              pinTheme: PinTheme(),
               key: const Key('keyboardKey'),
               maxLength: length,
               onChanged: (p0) {
