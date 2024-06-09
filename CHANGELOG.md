@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Feat: textstyle for keys
+
 ## 1.0.0
 
 * Fix: null on change throwing exception

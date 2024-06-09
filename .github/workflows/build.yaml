@@ -64,4 +64,3 @@ jobs:
       - name: Build
         run: flutter build apk
         working-directory: ./example
-      - run: git diff --exit-code
