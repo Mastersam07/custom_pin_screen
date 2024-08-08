@@ -10,6 +10,9 @@ class CustomKeyBoard extends StatefulWidget {
   /// special key to be displayed on the widget. Default is '.'
   final Widget? specialKey;
 
+  /// back key icon to be displayed on the widget. Default is `Icons.backspace`
+  final IconData? backKeyIcon;
+
   /// on changed function to be called when the amount is changed.
   final Function(String)? onChanged;
 
@@ -31,6 +34,7 @@ class CustomKeyBoard extends StatefulWidget {
       required this.maxLength,
       this.pinTheme = const PinTheme.defaults(),
       this.specialKey,
+      this.backKeyIcon,
       this.onChanged,
       this.specialKeyOnTap,
       this.onCompleted,
@@ -134,7 +138,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           ),
           buildNumberButton(
               icon: Icon(
-                Icons.backspace,
+                widget.backKeyIcon ?? Icons.backspace,
                 key: const Key('backspace'),
                 color: widget.pinTheme.keysColor,
               ),
