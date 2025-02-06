@@ -150,13 +150,16 @@ class _WalletScreenState extends State<WalletScreen> {
             ),
           ),
           const SizedBox(height: 80),
-          CustomKeyBoard(
-            controller: controller,
-            pinTheme: PinTheme(
-              textColor: Colors.red,
-              keysColor: Colors.blue,
+          Expanded(
+            child: CustomKeyBoard(
+              padding: 0,
+              controller: controller,
+              pinTheme: PinTheme(
+                textColor: Colors.red,
+                keysColor: Colors.blue,
+              ),
+              maxLength: 4,
             ),
-            maxLength: 4,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -261,21 +264,23 @@ class _PinAuthScreenState extends State<PinAuthScreen> {
               ],
             ),
             const SizedBox(height: 80),
-            CustomKeyBoard(
-              controller: controller,
-              pinTheme: pinTheme,
-              specialKey: Icon(
-                Icons.fingerprint,
-                key: const Key('fingerprint'),
-                color: pinTheme.keysColor,
-                size: 50,
+            Expanded(
+              child: CustomKeyBoard(
+                controller: controller,
+                pinTheme: pinTheme,
+                specialKey: Icon(
+                  Icons.fingerprint,
+                  key: const Key('fingerprint'),
+                  color: pinTheme.keysColor,
+                  size: 50,
+                ),
+                specialKeyOnTap: () {
+                  if (kDebugMode) {
+                    print('fingerprint');
+                  }
+                },
+                maxLength: 4,
               ),
-              specialKeyOnTap: () {
-                if (kDebugMode) {
-                  print('fingerprint');
-                }
-              },
-              maxLength: 4,
             ),
             TextButton(
               onPressed: () {

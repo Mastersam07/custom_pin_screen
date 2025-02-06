@@ -29,6 +29,8 @@ class CustomKeyBoard extends StatefulWidget {
 
   final TextStyle? keysTextStyle;
 
+  final double padding;
+
   const CustomKeyBoard(
       {Key? key,
       required this.maxLength,
@@ -38,6 +40,7 @@ class CustomKeyBoard extends StatefulWidget {
       this.onChanged,
       this.specialKeyOnTap,
       this.onCompleted,
+      this.padding = 30,
       required this.controller,
       this.keysTextStyle = const TextStyle(
         fontSize: 22,
@@ -64,11 +67,10 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
       }
     }
 
-    return Expanded(
-        child: CupertinoButton(
-            key: icon?.key ?? Key("btn$number"),
-            onPressed: onPressed,
-            child: getChild()));
+    return CupertinoButton(
+        key: icon?.key ?? Key("btn$number"),
+        onPressed: onPressed,
+        child: getChild());
   }
 
   Widget buildNumberRow(List<int> numbers) {
@@ -89,85 +91,86 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               },
             ))
         .toList();
-    return Expanded(
-        child: Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: buttonList,
-    ));
+    );
   }
 
   Widget buildSpecialRow() {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          buildNumberButton(
-            icon: widget.specialKey ??
-                Icon(
-                  Icons.circle,
-                  key: const Key('specialKey'),
-                  color: widget.pinTheme.keysColor,
-                  size: 7,
-                ),
-            onPressed: widget.specialKeyOnTap ??
-                () {
-                  if (widget.controller.text.length < widget.maxLength) {
-                    if (!widget.controller.text.contains(".")) {
-                      widget.controller.text = widget.controller.text + ".";
-                    }
-                  }
-                  widget.onChanged?.call(widget.controller.text);
-                  if (widget.controller.text.length >= widget.maxLength) {
-                    widget.onCompleted?.call(widget.controller.text);
-                  }
-                },
-          ),
-          buildNumberButton(
-            number: 0,
-            onPressed: () {
-              if (widget.controller.text.length < widget.maxLength) {
-                widget.controller.text = widget.controller.text + 0.toString();
-              }
-              widget.onChanged?.call(widget.controller.text);
-              if (widget.controller.text.length >= widget.maxLength) {
-                widget.onCompleted?.call(widget.controller.text);
-              }
-            },
-          ),
-          buildNumberButton(
-              icon: Icon(
-                widget.backKeyIcon ?? Icons.backspace,
-                key: const Key('backspace'),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        buildNumberButton(
+          icon: widget.specialKey ??
+              Icon(
+                Icons.circle,
+                key: const Key('specialKey'),
                 color: widget.pinTheme.keysColor,
+                size: 7,
               ),
-              onPressed: () {
-                if (widget.controller.text.isNotEmpty) {
-                  widget.controller.text = widget.controller.text
-                      .substring(0, widget.controller.text.length - 1);
+          onPressed: widget.specialKeyOnTap ??
+              () {
+                if (widget.controller.text.length < widget.maxLength) {
+                  if (!widget.controller.text.contains(".")) {
+                    widget.controller.text = widget.controller.text + ".";
+                  }
                 }
                 widget.onChanged?.call(widget.controller.text);
-              }),
+                if (widget.controller.text.length >= widget.maxLength) {
+                  widget.onCompleted?.call(widget.controller.text);
+                }
+              },
+        ),
+        buildNumberButton(
+          number: 0,
+          onPressed: () {
+            if (widget.controller.text.length < widget.maxLength) {
+              widget.controller.text = widget.controller.text + 0.toString();
+            }
+            widget.onChanged?.call(widget.controller.text);
+            if (widget.controller.text.length >= widget.maxLength) {
+              widget.onCompleted?.call(widget.controller.text);
+            }
+          },
+        ),
+        buildNumberButton(
+            icon: Icon(
+              widget.backKeyIcon ?? Icons.backspace,
+              key: const Key('backspace'),
+              color: widget.pinTheme.keysColor,
+            ),
+            onPressed: () {
+              if (widget.controller.text.isNotEmpty) {
+                widget.controller.text = widget.controller.text
+                    .substring(0, widget.controller.text.length - 1);
+              }
+              widget.onChanged?.call(widget.controller.text);
+            }),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: widget.padding),
+      child: Column(
+        children: [
+          Expanded(child: buildNumberRow([1, 2, 3])),
+          Expanded(child: buildNumberRow([4, 5, 6])),
+          Expanded(child: buildNumberRow([7, 8, 9])),
+          Expanded(child: buildSpecialRow()),
         ],
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            buildNumberRow([1, 2, 3]),
-            buildNumberRow([4, 5, 6]),
-            buildNumberRow([7, 8, 9]),
-            buildSpecialRow(),
-          ],
-        ),
-      ),
-    );
+  dispose() {
+    widget.controller.dispose();
+    super.dispose();
   }
 }
